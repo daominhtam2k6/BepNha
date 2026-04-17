@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "ENB7NeSaPeg=",
-  "success": false,
+  "dgSpecHash": "TigqV8cy6sw=",
+  "success": true,
   "projectFilePath": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Web\\BepNha.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LENOVO\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
@@ -111,17 +111,5 @@
     "C:\\Users\\LENOVO\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj'. Check that the project reference is valid and that the project file exists.",
-      "projectPath": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Web\\BepNha.Web.csproj",
-      "filePath": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Web\\BepNha.Web.csproj",
-      "libraryId": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

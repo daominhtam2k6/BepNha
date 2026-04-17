@@ -9,17 +9,25 @@ using BepNha.Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ── Logging ──
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 // ── MVC ──
 builder.Services.AddControllersWithViews();
 
-// ── EF Core + SQLite (ENV-first, simple) ──
+// ── EF Core + SQLite (Render persistent disk) ──
 var sqliteConnStr =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? Environment.GetEnvironmentVariable("CONNECTIONSTRINGS__DEFAULTCONNECTION")
-    ?? $"Data Source={Environment.GetEnvironmentVariable("SQLITE_FILE") ?? "app.db"}";
+    ?? $"Data Source={Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "app.db")}";
+
+// Debug: Log connection string (without passwords)
+Console.WriteLine($"[STARTUP] Using connection string: {sqliteConnStr}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(sqliteConnStr));
+    options.UseSqlite(sqliteConnStr)
+           .LogTo(Console.WriteLine, LogLevel.Information));
 
 // ── Cookie Authentication ──
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -31,10 +39,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-// ── Authorization ──
-// ⚠️ Nếu muốn test public (không login), comment block này
+// ── Authorization: Allow public access to Home/CreateOrder ──
 builder.Services.AddAuthorization(options =>
 {
+    // Default policy requires auth for [Authorize] attributes
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
@@ -58,11 +66,21 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
-// ── Auto migrate DB ──
+// ── Auto migrate DB on startup ──
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        Console.WriteLine("[STARTUP] Running EF Core migrations...");
+        db.Database.Migrate();
+        Console.WriteLine("[STARTUP] ✅ Migrations completed successfully");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"[STARTUP] ❌ Migration failed: {ex.Message}");
+        throw;
+    }
 }
 
 // ── Middleware ──
@@ -72,12 +90,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// ⚠️ Nếu bị redirect loop trên Render thì comment dòng dưới
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -85,6 +100,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// ── Handle PORT env var for Render ──
+// ── Port handling (Render) ──
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+Console.WriteLine($"[STARTUP] Starting app on http://0.0.0.0:{port}");
 app.Run($"http://0.0.0.0:{int.Parse(port)}");

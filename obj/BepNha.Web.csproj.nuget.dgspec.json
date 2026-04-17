@@ -31,11 +31,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj": {
-                "projectPath": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {

@@ -848,3 +848,4 @@ C:\Users\LENOVO\Downloads\BepNha.Web_vs4 - Copy (2)\BepNha.Web_vs3\BepNha.Web\Be
 C:\Users\LENOVO\Downloads\BepNha.Web_vs4 - Copy (2)\BepNha.Web_vs3\BepNha.Web\BepNha.Web\obj\Debug\net8.0\BepNha.Web.genruntimeconfig.cache
 C:\Users\LENOVO\Downloads\BepNha.Web_vs4 - Copy (2)\BepNha.Web_vs3\BepNha.Web\BepNha.Web\obj\Debug\net8.0\ref\BepNha.Web.dll
 C:\Users\LENOVO\Downloads\BepNha.Web_vs4 - Copy (2)\BepNha.Web_vs3\BepNha.Web\BepNha.Web\bin\Debug\net8.0\appsettings.Production.json
+C:\Users\LENOVO\Downloads\BepNha.Web_vs4 - Copy (2)\BepNha.Web_vs3\BepNha.Web\BepNha.Web\obj\Debug\net8.0\BepNha.Web.sourcelink.json

@@ -5137,7 +5137,6 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "BCrypt.Net-Next >= 4.0.3",
-      "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj",
       "Microsoft.AspNetCore.Authentication.Cookies >= 2.2.0",
       "Microsoft.EntityFrameworkCore >= 8.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.0",
@@ -5177,11 +5176,7 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {
-            "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj": {
-              "projectPath": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -5251,16 +5246,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "C:\\Users\\LENOVO\\Downloads\\BepNha.Web_vs4 - Copy (2)\\BepNha.Web_vs3\\BepNha.Web\\BepNha.Data\\BepNha.Data.csproj",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }
