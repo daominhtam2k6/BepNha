@@ -54,19 +54,14 @@ namespace BepNha.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("[CreateOrder] Request received: {@Dto}", dto);
+                _logger.LogInformation("[CreateOrder] Request: {CustomerName}, {ItemCount} items", 
+                    dto?.CustomerName, dto?.Items?.Count ?? 0);
 
                 if (dto == null)
-                {
-                    _logger.LogWarning("[CreateOrder] DTO is null");
                     return Json(new { success = false, message = "Không nhận được dữ liệu." });
-                }
 
                 if (dto.Items == null || dto.Items.Count == 0)
-                {
-                    _logger.LogWarning("[CreateOrder] No items in order");
                     return Json(new { success = false, message = "Vui lòng chọn ít nhất 1 món." });
-                }
 
                 if (string.IsNullOrWhiteSpace(dto.CustomerName))
                     return Json(new { success = false, message = "Vui lòng nhập tên khách hàng." });
@@ -77,35 +72,35 @@ namespace BepNha.Web.Controllers
                 if (string.IsNullOrWhiteSpace(dto.DeliveryAddress))
                     return Json(new { success = false, message = "Vui lòng nhập địa chỉ giao hàng." });
 
-                _logger.LogInformation("[CreateOrder] Creating order for {CustomerName} ({CustomerPhone})", 
-                    dto.CustomerName, dto.CustomerPhone);
-
                 var result = await _orderService.CreateOrderAsync(dto);
-
-                if (!result.IsSuccess)
-                {
-                    _logger.LogError("[CreateOrder] Service failed: {Message}", result.Message);
-                }
-                else
-                {
-                    _logger.LogInformation("[CreateOrder] Order created successfully: {OrderCode}", result.Data?.OrderCode);
-                }
-
-                return Json(new
-                {
-                    success = result.IsSuccess,
-                    message = result.Message,
-                    orderCode = result.Data?.OrderCode
+                return Json(new 
+                { 
+                    success = result.IsSuccess, 
+                    message = result.Message, 
+                    orderCode = result.Data?.OrderCode 
+                });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx)
+            {
+                var innerMsg = dbEx.InnerException?.Message ?? dbEx.Message;
+                _logger.LogError(dbEx, "[CreateOrder] Database error: {Message}", innerMsg);
+                return Json(new 
+                { 
+                    success = false, 
+                    message = $"Lỗi database: {innerMsg}",
+                    dbError = innerMsg
                 });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "[CreateOrder] Unhandled exception: {Message}", ex.Message);
+                var innerMsg = ex.InnerException?.InnerException?.Message 
+                            ?? ex.InnerException?.Message 
+                            ?? ex.Message;
+                _logger.LogError(ex, "[CreateOrder] Error: {Message}", innerMsg);
                 return Json(new 
                 { 
                     success = false, 
-                    message = $"Lỗi máy chủ: {ex.Message}",
-                    error = ex.InnerException?.Message
+                    message = $"Lỗi: {innerMsg}"
                 });
             }
         }

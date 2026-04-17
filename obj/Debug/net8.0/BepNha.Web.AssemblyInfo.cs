@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BepNha.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+65dcf0b81b533add868280746434104af515ed2a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e21ec9284039b8dfe0fcba3cbc67e0693fea70a")]
 [assembly: System.Reflection.AssemblyProductAttribute("BepNha.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BepNha.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
