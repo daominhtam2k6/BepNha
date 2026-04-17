@@ -17,7 +17,7 @@ window.onclick = function (event) {
 
 // --- LOGIC GIỎ HÀNG (Dùng cho đặt món) ---
 let cart = [];
-let foodData = []; // moved up so addToCartById can use it
+let foodData = [];
 
 function addToCart(food) {
     if (cart.length >= 3) {
@@ -25,133 +25,7 @@ function addToCart(food) {
         return;
     }
 
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
-    const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
-    if (!id || isNaN(id)) {
-        console.error('addToCart: invalid item id', food);
-        alert('Không thể thêm món (id không hợp lệ). Vui lòng thử lại.');
-        return;
-    }
-
-    cart.push({
-        id,
-        name: food.name ?? food.menuItemName ?? '',
-        price: food.price ?? 0
-    });
-    alert(`Đã thêm "${food.name ?? food.menuItemName}" vào giỏ hàng!`);
-    // defensive copy: ensure id exists and is a number
+    // Defensive: ensure id exists and is a number
     const id = Number(food.id ?? food.menuItemId ?? food.MenuItemId);
     if (!id || isNaN(id)) {
         console.error('addToCart: invalid item id', food);
