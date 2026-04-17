@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  bepnha-web:
+    build: .
+    container_name: bepnha-web-app
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - SQLITE_FILE=/data/app.db
+    volumes:
+      - bepnha-data:/data
+    restart: unless-stopped
+
+volumes:
+  bepnha-data:
+    driver: local

@@ -1,0 +1,7 @@
+wwwroot\css\admin-style.css
+wwwroot\css\staff-style.css
+wwwroot\css\style.css
+wwwroot\img\logo.jpg
+wwwroot\js\admin-logic.js
+wwwroot\js\script.js
+wwwroot\js\staff-script.js

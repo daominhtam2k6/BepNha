@@ -1,0 +1,8 @@
+# Check running container
+docker ps
+
+# Check app logs
+curl https://your-render-app-url.onrender.com
+
+# Verify SQLite DB exists on disk
+docker exec bepnha-web-container ls -lah /data/

@@ -17,4 +17,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BepNha.Data\BepNha.Data.csproj" />
+  </ItemGroup>
 </Project>
