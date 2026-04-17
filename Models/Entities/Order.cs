@@ -5,6 +5,7 @@ namespace BepNha.Web.Models.Entities
 {
     public class Order
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required, MaxLength(20)]

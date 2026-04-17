@@ -68,6 +68,18 @@ namespace BepNha.Web.Data
                 .HasForeignKey(i => i.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<OrderStatusLog>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();
+
             // ── Seed: Admin mặc định ──
             modelBuilder.Entity<User>().HasData(new User
             {
