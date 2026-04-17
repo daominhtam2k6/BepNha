@@ -1,0 +1,571 @@
+/* -- Admin Global Enhancements -- */
+:root {
+    --primary-color: #e44d26;
+    --secondary-color: #2c3e50;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --bg-light: #f4f7f6;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.admin-body {
+    background-color: var(--bg-light);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    margin: 0;
+}
+
+
+/* Điều hướng Section ẩn/hiện */
+.admin-tab-content {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+    .admin-tab-content.active {
+        display: block;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Layout chính ── */
+/* [YÊU CẦU 1] Thu hẹp cột giữa từ 1fr → minmax(0,1fr) đồng thời
+   giảm cột stats về 280px để cả 3 cột vừa màn hình 1400px */
+/* ── Layout chính tối ưu ── */
+/* ── Layout chính - Ép thông số ── */
+.admin-container {
+    display: grid;
+    /* Cố định Sidebar 200px, Cột giữa co giãn, Cột Stats cố định 280px */
+    grid-template-columns: 240px minmax(0, 1fr) 280px;
+    gap: 20px !important;
+    max-width: 1600px ;
+    margin: 30px auto ;
+    padding: 0 20px ;
+    align-items: start ;
+    /* Ngăn chặn container tổng tự phình to quá màn hình */
+    width: 100% ;
+    box-sizing: border-box ;
+}
+/* -- Sidebar Refined -- */
+.admin-sidebar {
+    background: var(--white);
+    padding: 25px 15px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar-group h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    letter-spacing: 1.5px;
+}
+
+.sidebar-group a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    color: var(--secondary-color);
+    font-weight: 500;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+    .sidebar-group a i {
+        width: 20px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .sidebar-group a:hover {
+        background: #fff5f2;
+        color: var(--primary-color);
+        padding-left: 22px;
+    }
+
+    .sidebar-group a.active {
+        background: var(--primary-color);
+        color: var(--white);
+        box-shadow: 0 4px 15px rgba(228, 77, 38, 0.3);
+    }
+
+/* -- Sơ đồ bàn (Table Grid) -- */
+.table-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 14px;
+    padding: 10px 0;
+}
+
+.table-item {
+    background: var(--white);
+    border: 2px solid #eee;
+    border-radius: 16px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+    .table-item i {
+        font-size: 24px;
+        color: #ccc;
+    }
+
+    .table-item span {
+        font-weight: 700;
+        color: var(--secondary-color);
+        font-size: 13px;
+    }
+
+    .table-item small {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #999;
+    }
+
+    .table-item:hover {
+        transform: translateY(-4px);
+        border-color: var(--primary-color);
+    }
+
+    /* Các trạng thái bàn */
+    .table-item.available i {
+        color: #ddd;
+    }
+
+    .table-item.occupied {
+        border-color: var(--primary-color);
+        background: #fff5f2;
+    }
+
+        .table-item.occupied i {
+            color: var(--primary-color);
+        }
+
+    .table-item.reserved {
+        border-color: var(--success-color);
+        background: #f0fff4;
+    }
+
+        .table-item.reserved i {
+            color: var(--success-color);
+        }
+
+/* -- Tables & Cards -- */
+.admin-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    /* [YÊU CẦU 1] Đảm bảo bảng không vỡ layout */
+    overflow-x: auto;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    /* [YÊU CẦU 1] Cho phép bảng scroll ngang thay vì đẩy cột stats */
+    min-width: 600px;
+}
+
+    .admin-table th {
+        padding: 10px 12px;
+        color: #888;
+        font-size: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        white-space: nowrap;
+    }
+
+    .admin-table td {
+        padding: 10px 12px;
+        background: #fff;
+        font-size: 13px;
+        border-bottom: 1px solid #f8f9fa;
+        vertical-align: middle;
+    }
+
+    .admin-table .action-cell {
+        white-space: wrap;
+        min-width: 120px;
+    }
+
+/* -- Status Badges (Pills) -- */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: inline-block;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.status-pending {
+    background: #fff4e5;
+    color: #e65100;
+}
+
+.status-new {
+    background: #fff4e5;
+    color: #ffa000;
+}
+
+.status-confirmed {
+    background: #e8eaf6;
+    color: #3949ab;
+}
+
+.status-cooking {
+    background: #fff8e1;
+    color: #f57c00;
+}
+
+.status-cooked {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-shipping {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.status-done {
+    background: #f5f5f5;
+    color: #9e9e9e;
+}
+
+.status-cancel {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-cancelled {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* -- Buttons -- */
+.btn-action {
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-confirm {
+    background: var(--primary-color);
+    color: white;
+    margin-right: 5px;
+}
+
+    .btn-confirm:hover {
+        background: #c93d1d;
+    }
+
+.btn-cancel {
+    background: #fff;
+    color: var(--danger-color);
+    border: 1px solid #fcc;
+}
+
+    .btn-cancel:hover {
+        background: #fff5f5;
+    }
+
+/* -- Lịch sử giao dịch (Mini Cards) -- */
+.stats-card-mini {
+    background: #f8f9fa;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    flex: 1;
+}
+
+    .stats-card-mini strong {
+        font-size: 18px;
+        display: block;
+        color: var(--primary-color);
+    }
+
+.admin-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 13px;
+}
+
+/* -- Cột thống kê bên phải -- */
+.admin-stats .stats-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--primary-color);
+    position: sticky;
+    top: 100px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+    .stat-item strong {
+        font-size: 17px;
+    }
+
+.dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.blue {
+    background: var(--info-color);
+}
+
+.green {
+    background: var(--success-color);
+}
+
+.red {
+    background: var(--danger-color);
+}
+
+progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+    progress::-webkit-progress-bar {
+        background: #eee;
+        border-radius: 10px;
+    }
+
+    progress::-webkit-progress-value {
+        background: var(--primary-color);
+        border-radius: 10px;
+    }
+
+/* CSS cho Modal tránh bị tràn */
+.admin-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 440px;
+    box-sizing: border-box;
+}
+
+.modal-body input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: block;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.modal-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Thống kê trong tab lịch sử */
+.history-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* ═══════════════════════════════════════════════
+   [YÊU CẦU 2] GIAO DIỆN GỘP SƠ ĐỒ BÀN + ĐẶT BÀN
+   ═══════════════════════════════════════════════ */
+
+/* Separator giữa sơ đồ bàn và bảng đơn đặt bàn */
+.section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 16px;
+}
+
+    .section-divider h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        white-space: nowrap;
+    }
+
+    .section-divider::after {
+        content: '';
+        flex: 1;
+        height: 2px;
+        background: #eee;
+        border-radius: 2px;
+    }
+
+/* Panel form điền thông tin đặt bàn (inline, không dùng modal) */
+.booking-form-panel {
+    background: #f8faff;
+    border: 1.5px solid #d0e4ff;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+    .booking-form-panel h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+.booking-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: end;
+}
+
+    .booking-form-row .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+        .booking-form-row .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .booking-form-row .form-group input,
+        .booking-form-row .form-group select {
+            padding: 9px 12px !important;
+            border: 1.5px solid #ddd !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            outline: none !important;
+            transition: 0.2s !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+            .booking-form-row .form-group input:focus,
+            .booking-form-row .form-group select:focus {
+                border-color: var(--primary-color) !important;
+            }
+
+/* Highlight bàn đang được chọn để đặt */
+.table-item.selecting {
+    border-color: var(--info-color) !important;
+    background: #e3f2fd !important;
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.25);
+}
+
+    .table-item.selecting i {
+        color: var(--info-color) !important;
+    }
+
+/* Badge hiển thị bàn đang chọn */
+.selected-table-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #e3f2fd;
+    color: var(--info-color);
+    border: 1.5px solid #b3d9f5;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Row từ đơn đặt bàn khi được chọn auto-fill */
+.booking-row-selected {
+    background: #fffbea !important;
+    outline: 2px solid var(--warning-color);
+}
+
+/* Đơn đặt bàn bên dưới - compact hơn */
+.bookings-below-table .admin-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+}
+
+.bookings-below-table .admin-table th {
+    font-size: 11px;
+    padding: 8px 10px;
+}
+

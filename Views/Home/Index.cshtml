@@ -1,0 +1,675 @@
+@model BepNha.Web.Models.ViewModels.MenuPagedVm
+@{
+    ViewData["Title"] = "Thực Đơn - Bếp Nhà";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        .toast { position:fixed; bottom:24px; right:24px; background:#28a745; color:#fff;
+                 padding:13px 22px; border-radius:12px; z-index:9999; font-size:14px;
+                 box-shadow:0 4px 15px rgba(0,0,0,0.2); animation:slideIn 0.3s ease; }
+        .toast.error { background:#dc3545; }
+        @@keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .cart-badge { position:absolute; top:-6px; right:-6px; background:#e44d26; color:#fff;
+                      border-radius:50%; width:18px; height:18px; font-size:11px; font-weight:bold;
+                      display:flex; align-items:center; justify-content:center; }
+        .nav-cart-btn { position:relative; background:none; border:2px solid #e44d26; border-radius:20px;
+                        padding:6px 14px; color:#e44d26; font-size:13px; font-weight:600; cursor:pointer;
+                        display:flex; align-items:center; gap:6px; transition:0.2s; }
+        .nav-cart-btn:hover { background:#e44d26; color:#fff; }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo"><a href="/">🍜 BẾP NHÀ</a></div>
+
+        <div class="search-wrapper">
+                <input type="text" id="searchInput"
+                       placeholder="Tìm tên món ăn..."
+                       value="@Context.Request.Query["search"]"
+                       onkeydown="if(event.key==='Enter') doSearch()">
+                <button type="button" onclick="doSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+        </div>
+
+        <nav class="main-nav">
+            <a href="tel:0123456789" class="nav-link"><i class="fas fa-phone-alt"></i> 0123.456.789</a>
+
+            <!-- Nút giỏ hàng nổi bật -->
+            <button class="nav-cart-btn" onclick="openModal('đặt món')">
+                <i class="fas fa-shopping-basket"></i> Giỏ hàng
+                <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+            </button>
+
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown()"><i class="fas fa-bars"></i></button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="#" onclick="openModal('đặt bàn'); return false;"><i class="fas fa-chair"></i> Đặt bàn</a>
+                    <a href="#" onclick="openModal('đặt món'); return false;"><i class="fas fa-utensils"></i> Đặt món</a>
+                    <a href="#" onclick="openModal('tra cứu'); return false;"><i class="fas fa-search-location"></i> Tra cứu đơn</a>
+                    <hr style="margin:5px 0; border-color:#eee;">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="/Admin"><i class="fas fa-cog"></i> Quản trị viên</a>
+                        }
+                        else if (User.IsInRole("Staff"))
+                        {
+                            <a href="/Staff"><i class="fas fa-fire"></i> Màn hình bếp</a>
+                        }
+                        <a href="/Account/Logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất (@User.Identity.Name)</a>
+                    }
+                    else
+                    {
+                        <a href="/Account/Login"><i class="fas fa-sign-in-alt"></i> Đăng nhập ! ! ! (chỉ dành cho nhân viên)</a>
+
+                    }
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<section class="banner-section">
+    <img src="/img/logo.jpg" alt="Banner Bếp Nhà" class="banner-img">
+</section>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successBanner" style="background:#28a745;color:#fff;text-align:center;padding:14px 20px;
+         font-size:15px;font-weight:600;position:relative;">
+        <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+        <button onclick="this.parentElement.remove()"
+            style="position:absolute;right:16px;top:50%;transform:translateY(-50%);
+                   background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;">&#215;</button>
+    </div>
+}
+
+<main class="main-content">
+    <div class="content-container">
+
+        <section class="food-section">
+            <h2 class="section-title">Thực Đơn Món Ăn</h2>
+            <div class="food-grid" id="foodGrid">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="food-card" data-name="@item.Name.ToLower()">
+                        <img src="@(string.IsNullOrEmpty(item.ImageUrl)
+                            ? $"https://via.placeholder.com/300x200/f5f5f5/999?text={Uri.EscapeDataString(item.Name)}"
+                            : item.ImageUrl)"
+                             alt="@item.Name" class="food-img"
+                             onerror="this.src='https://via.placeholder.com/300x200/f5f5f5/999?text=Ảnh+món+ăn'">
+                        <div class="food-info">
+                            <h4 class="food-name">@item.Name</h4>
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                <p style="font-size:12px;color:#999;margin:4px 0;">@item.Description</p>
+                            }
+                            <p class="food-price">@item.Price.ToString("N0")đ</p>
+                            <button onclick="addToCart(@item.Id, '@Html.Raw(item.Name.Replace("'", "\\'"))', @item.Price)"
+                                    style="margin-top:10px;width:100%;padding:9px;background:#28a745;color:white;
+                                           border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:0.2s;"
+                                    onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                                <i class="fas fa-plus"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+                @{
+                    var search = Context.Request.Query["search"].ToString();
+                }
+
+                @if (Model.TotalPages > 1)
+                {
+                    <div class="pagination">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <a href="?page=@(Model.CurrentPage - 1)&search=@search"
+                               class="pg-btn">← Trước</a>
+                        }
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <a href="?page=@i&search=@search"
+                               class="pg-btn @(i == Model.CurrentPage ? "active" : "")">
+                                @i
+                            </a>
+                        }
+
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <a href="?page=@(Model.CurrentPage + 1)&search=@search"
+                               class="pg-btn">Sau →</a>
+                        }
+                    </div>
+                }
+        </section>
+
+        <aside class="ranking-section">
+            <div class="ranking-sticky">
+                <h3 class="ranking-title"><i class="fas fa-crown"></i> Top Món Hot Tuần Này</h3>
+                <ul class="ranking-list">
+                    <li class="ranking-item"><span class="rank-number">1</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRwN9aL-rWiE84uhQtFyiGpEQuuzuFr4-5eN1EtrkwsIuqONeqYfnTkUTrcQAY1ykWJLTure1CWATyo9lijssqG4d7co0-XhGE2gHUuIE&s=10" alt="Món 1">
+                        <div class="rank-info"><span class="rank-name">Phở Bò Gia Truyền</span><span class="rank-count">1.2k lượt đặt</span></div>
+                    </li>
+                    <li class="ranking-item"><span class="rank-number">2</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5WYtKbS5Wlhs3rqXiWFxQ-uNQclEFsIK-0dGvaSi-QQISpMcVH6blrc4YHTTbrJxPbcx09HLYvQdcT6MTEQ8pDLCMCPAjpfhoLdG4xg&s=10" alt="Món 2">
+                        <div class="rank-info"><span class="rank-name">Bún Chả Hà Nội</span><span class="rank-count">950 lượt đặt</span></div>
+                    </li>
+                    <li class="ranking-item"><span class="rank-number">3</span>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTf1O9yeFBadtoTsTJOyWoO5MwsJQtA-Tey3JKHa1DR-hbBdw3slSfSPa6jSjIW3j2GILtXt0IugS4DFkIDx7S6ObmkcSzdLmin1_iTw&s=10" alt="Món 3">
+                        <div class="rank-info"><span class="rank-name">Bánh Mỳ Đặc Biệt</span><span class="rank-count">800 lượt đặt</span></div>
+                    </li>
+                    <li class="ranking-item"><span class="rank-number">4</span>
+                        <img src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwepQeDdO_6TRDmHskInYem6d7DYmSqTMyFkY-tUA8LD6zR_3C5eQ15yCxUicNBeVVy9pIEuTJRp6Wcx8BJm5OxXNztW9MUE1mRvSzSajlbtT1AWxc3MPDpVsZ6bmvXR3qZUgGNfoDg=w260-h175-n-k-no" alt="Món 4">
+                        <div class="rank-info"><span class="rank-name">Cơm Tấm Sườn Bì</span><span class="rank-count">650 lượt đặt</span></div>
+                    </li>
+                    <li class="ranking-item"><span class="rank-number">5</span>
+                        <img src="https://vietnhatplastic.com/Data/Sites/1/News/294/cach-lam-nem-cuon-4.jpg" alt="Món 5">
+                        <div class="rank-info"><span class="rank-name">Nem Cuốn Tươi</span><span class="rank-count">500 lượt đặt</span></div>
+                    </li>
+                </ul>
+                <hr style="margin:15px 0; border-color:#eee;">
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <button onclick="openModal('đặt bàn')"
+                        style="padding:11px; background:#e44d26; color:white; border:none; border-radius:8px;
+                               cursor:pointer; font-weight:700; font-size:14px; width:100%;">
+                        <i class="fas fa-chair"></i> Đặt bàn ngay
+                    </button>
+                    <button onclick="openModal('tra cứu')"
+                        style="padding:11px; background:#fff; color:#e44d26; border:2px solid #e44d26;
+                               border-radius:8px; cursor:pointer; font-weight:700; font-size:14px; width:100%;">
+                        <i class="fas fa-search"></i> Tra cứu đơn
+                    </button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<!-- Modal chức năng -->
+<div id="functionModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle"></h2>
+        <hr>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// GIỎ HÀNG
+// ════════════════════════════════════════════
+let cart = [];
+
+function addToCart(id, name, price) {
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
+        if (existing.qty >= 5) { showToast('Tối đa 5 phần mỗi món!', true); return; }
+        existing.qty++;
+    } else {
+        if (cart.length >= 5) { showToast('Giỏ hàng tối đa 5 loại món!', true); return; }
+        cart.push({ id, name, price, qty: 1, note: '' });
+    }
+    updateCartBadge();
+    showToast(`✓ Đã thêm "${name}"`);
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartBadge();
+    openModal('đặt món');
+}
+
+function changeQty(index, delta) {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    updateCartBadge();
+    openModal('đặt món');
+}
+
+function updateCartBadge() {
+    const total = cart.reduce((s, i) => s + i.qty, 0);
+    const badge = document.getElementById('cartBadge');
+    if (total > 0) { badge.style.display = 'flex'; badge.textContent = total; }
+    else           { badge.style.display = 'none'; }
+}
+
+// ════════════════════════════════════════════
+// DROPDOWN
+// ════════════════════════════════════════════
+function toggleDropdown() { document.getElementById("myDropdown").classList.toggle("show"); }
+window.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) document.getElementById("myDropdown")?.classList.remove('show');
+});
+
+// ════════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════════
+function openModal(action) {
+    document.getElementById("myDropdown").classList.remove('show');
+    const title = document.getElementById("modalTitle");
+    const body  = document.getElementById("modalBody");
+
+    if (action === 'đặt bàn') {
+        title.innerHTML = '<i class="fas fa-chair"></i> Đặt Bàn';
+        body.innerHTML = buildBookingForm();
+        loadTimeSlots();
+    }
+    else if (action === 'đặt món') {
+        title.innerHTML = '<i class="fas fa-shopping-basket"></i> Đặt Món';
+        body.innerHTML  = buildOrderForm();
+    }
+    else if (action === 'tra cứu') {
+        title.innerHTML = '<i class="fas fa-search"></i> Tra Cứu Đơn Hàng';
+        body.innerHTML  = buildSearchForm();
+    }
+
+    document.getElementById("functionModal").style.display = "block";
+}
+
+function closeModal() { document.getElementById("functionModal").style.display = "none"; }
+
+// ════════════════════════════════════════════
+// FORM: ĐẶT BÀN
+// ════════════════════════════════════════════
+function buildBookingForm() {
+    const today = new Date().toISOString().split('T')[0];
+    return `
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:12px;">
+            <div style="flex:1">
+                <label class="flabel">Họ và tên *</label>
+                <input type="text" id="bkName" placeholder="Tên của bạn..." class="finput">
+            </div>
+            <div style="flex:1">
+                <label class="flabel">Số điện thoại *</label>
+                <input type="tel" id="bkPhone" placeholder="0912xxxxxx" class="finput">
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;">
+            <div style="flex:1">
+                <label class="flabel">Ngày đến *</label>
+                <input type="date" id="bkDate" min="${today}" value="${today}" class="finput">
+            </div>
+            <div style="flex:1">
+                <label class="flabel">Số người *</label>
+                <input type="number" id="bkGuest" min="1" max="6" value="2" class="finput">
+            </div>
+        </div>
+        <div>
+            <label class="flabel">Khung giờ *</label>
+            <select id="bkSlot" class="finput">
+                <option value="">-- Đang tải khung giờ... --</option>
+            </select>
+        </div>
+        <div>
+            <label class="flabel">Ghi chú</label>
+            <input type="text" id="bkNote" placeholder="Yêu cầu đặc biệt..." class="finput">
+        </div>
+        <button onclick="submitBooking()"
+            style="padding:13px;background:#e44d26;color:white;border:none;border-radius:8px;
+                   cursor:pointer;font-weight:700;font-size:15px;">
+            <i class="fas fa-check"></i> XÁC NHẬN ĐẶT BÀN
+        </button>
+        <p style="text-align:center;font-size:12px;color:#aaa;">
+            <i class="fas fa-info-circle"></i> Đặt bàn sẽ được xác nhận trong vòng 30 phút
+        </p>
+    </div>
+    <style>
+        .flabel{display:block;font-weight:600;font-size:13px;color:#444;margin-bottom:5px}
+        .finput{width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;
+                font-size:14px;outline:none;transition:0.2s;box-sizing:border-box}
+        .finput:focus{border-color:#e44d26}
+    </style>`;
+}
+
+async function loadTimeSlots() {
+    try {
+        const slots = await fetch('/Home/GetTimeSlots').then(r => r.json());
+        const sel = document.getElementById('bkSlot');
+        if (!sel) return;
+        if (!slots || slots.length === 0) {
+            sel.innerHTML = '<option value="">Chưa có khung giờ nào</option>';
+            return;
+        }
+        sel.innerHTML = '<option value="">-- Chọn khung giờ --</option>'
+            + slots.map(s => `<option value="${s.id}">${s.slotName}</option>`).join('');
+    } catch(e) {
+        console.error('Lỗi tải khung giờ:', e);
+    }
+}
+
+async function submitBooking() {
+    const name   = document.getElementById('bkName')?.value?.trim();
+    const phone  = document.getElementById('bkPhone')?.value?.trim();
+    const date   = document.getElementById('bkDate')?.value;
+    const guest  = parseInt(document.getElementById('bkGuest')?.value);
+    const slotId = parseInt(document.getElementById('bkSlot')?.value);
+    const note   = document.getElementById('bkNote')?.value?.trim() || null;
+
+    if (!name)   { showToast('Vui lòng nhập tên khách hàng!', true); return; }
+    if (!phone)  { showToast('Vui lòng nhập số điện thoại!', true); return; }
+    if (!date)   { showToast('Vui lòng chọn ngày!', true); return; }
+    if (!slotId) { showToast('Vui lòng chọn khung giờ!', true); return; }
+    if (!guest || guest < 1 || guest > 6) { showToast('Số người không hợp lệ! (tối đa 6 người)', true); return; }
+
+    const dto = {
+        CustomerName:  name,
+        CustomerPhone: phone,
+        BookingDate:   date,         // "yyyy-MM-dd"
+        TimeSlotId:    slotId,
+        GuestCount:    guest,
+        Note:          note
+    };
+
+    const btn = event?.target;
+    if (btn) { btn.disabled = true; btn.textContent = 'Đang gửi...'; }
+
+    try {
+        const res = await postJson('/Home/CreateBooking', dto);
+        if (res.success) {
+            closeModal();
+            showToast(`✅ Đặt bàn thành công! Mã: ${res.bookingCode}`);
+            setTimeout(() => alert(
+                `🎉 ĐẶT BÀN THÀNH CÔNG!\n\nMã đặt bàn: ${res.bookingCode}\n` +
+                `Tên: ${name} | ${guest} người\nNgày: ${date}\n\n` +
+                `⚡ Chúng tôi sẽ xác nhận trong 30 phút qua SĐT ${phone}`
+            ), 300);
+        } else {
+            showToast(res.message || 'Đặt bàn thất bại!', true);
+        }
+    } catch(e) {
+        showToast('Lỗi kết nối, vui lòng thử lại!', true);
+    } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-check"></i> XÁC NHẬN ĐẶT BÀN'; }
+    }
+}
+
+// ════════════════════════════════════════════
+// FORM: ĐẶT MÓN
+// ════════════════════════════════════════════
+function buildOrderForm() {
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    const minTime = now.toISOString().slice(0,16);
+
+    const cartHtml = cart.length > 0
+        ? `<div style="background:#fff9f7;border:1.5px dashed #e44d26;border-radius:8px;padding:12px;margin-bottom:14px;">
+            <div style="font-weight:700;font-size:13px;color:#e44d26;margin-bottom:8px;">
+                <i class="fas fa-shopping-basket"></i> Giỏ hàng (${cart.reduce((s,i)=>s+i.qty,0)} phần)
+            </div>
+            ${cart.map((item, idx) => `
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f5ede9;gap:8px;">
+                    <span style="font-size:13px;flex:1">${item.name}</span>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <button onclick="changeQty(${idx},-1)"
+                            style="width:24px;height:24px;border-radius:50%;border:1px solid #ddd;
+                                   background:#fff;cursor:pointer;font-size:14px;line-height:1">−</button>
+                        <span style="font-size:13px;font-weight:bold;min-width:16px;text-align:center">${item.qty}</span>
+                        <button onclick="changeQty(${idx},1)"
+                            style="width:24px;height:24px;border-radius:50%;border:1px solid #ddd;
+                                   background:#fff;cursor:pointer;font-size:14px;line-height:1">+</button>
+                        <span style="font-size:13px;color:#e44d26;min-width:70px;text-align:right">
+                            ${(item.price * item.qty).toLocaleString('vi')}đ</span>
+                        <button onclick="removeFromCart(${idx})"
+                            style="background:none;border:none;color:#dc3545;cursor:pointer;font-size:14px;padding:0 4px">✕</button>
+                    </div>
+                </div>`).join('')}
+            <div style="text-align:right;font-weight:700;font-size:15px;color:#e44d26;margin-top:8px;padding-top:6px;border-top:1.5px solid #e44d26;">
+                Tổng: ${cart.reduce((s,i)=>s+i.price*i.qty,0).toLocaleString('vi')}đ
+            </div>
+           </div>`
+        : `<div style="background:#fff5f5;padding:15px;border-radius:8px;text-align:center;margin-bottom:14px;color:#dc3545;font-size:14px;">
+               <i class="fas fa-shopping-basket" style="font-size:24px;display:block;margin-bottom:8px;opacity:0.5"></i>
+               Giỏ hàng trống! Hãy chọn món từ thực đơn bên dưới.
+               <br><button onclick="closeModal()"
+                   style="margin-top:10px;padding:8px 18px;background:#e44d26;color:white;border:none;border-radius:6px;cursor:pointer;">
+                   Chọn món ngay →</button>
+           </div>`;
+
+    return `
+    <div style="display:flex;flex-direction:column;gap:14px;">
+        ${cartHtml}
+        ${cart.length > 0 ? `
+        <div style="display:flex;gap:12px;">
+            <div style="flex:1">
+                <label class="flabel">Họ và tên *</label>
+                <input type="text" id="odName" placeholder="Tên người nhận" class="finput">
+            </div>
+            <div style="flex:1">
+                <label class="flabel">Số điện thoại *</label>
+                <input type="tel" id="odPhone" placeholder="0912xxxxxx" class="finput">
+            </div>
+        </div>
+        <div>
+            <label class="flabel">Địa chỉ giao hàng *</label>
+            <textarea id="odAddr" placeholder="Số nhà, tên đường, phường/xã..."
+                style="width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;
+                       font-size:14px;outline:none;height:65px;resize:none;box-sizing:border-box;transition:0.2s"
+                onfocus="this.style.borderColor='#e44d26'" onblur="this.style.borderColor='#ddd'"></textarea>
+        </div>
+        <div>
+            <label class="flabel">Thời gian nhận món *</label>
+            <input type="datetime-local" id="odTime" min="${minTime}" class="finput">
+        </div>
+        <div>
+            <label class="flabel">Ghi chú chung <span style="color:#aaa;font-weight:400">(ít cay, không hành...)</span></label>
+            <input type="text" id="odNote" placeholder="Ghi chú cho toàn bộ đơn..." class="finput">
+        </div>
+        <button onclick="submitOrder()"
+            style="padding:13px;background:#28a745;color:white;border:none;border-radius:8px;
+                   cursor:pointer;font-weight:700;font-size:15px;">
+            <i class="fas fa-paper-plane"></i> GỬI ĐƠN HÀNG
+        </button>` : ''}
+    </div>
+    <style>
+        .flabel{display:block;font-weight:600;font-size:13px;color:#444;margin-bottom:5px}
+        .finput{width:100%;padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;
+                font-size:14px;outline:none;transition:0.2s;box-sizing:border-box}
+        .finput:focus{border-color:#e44d26}
+    </style>`;
+}
+
+async function submitOrder() {
+    if (cart.length === 0) { showToast('Giỏ hàng trống!', true); return; }
+
+    const name = document.getElementById('odName')?.value?.trim();
+    const phone = document.getElementById('odPhone')?.value?.trim();
+    const addr = document.getElementById('odAddr')?.value?.trim();
+    const time = document.getElementById('odTime')?.value;
+    const note = document.getElementById('odNote')?.value?.trim() || null;
+
+    if (!name)  { showToast('Vui lòng nhập tên!', true); return; }
+    if (!phone) { showToast('Vui lòng nhập số điện thoại!', true); return; }
+    if (!addr)  { showToast('Vui lòng nhập địa chỉ!', true); return; }
+    if (!time)  { showToast('Vui lòng chọn thời gian nhận!', true); return; }
+
+    const dto = {
+        CustomerName:    name,
+        CustomerPhone:   phone,
+        DeliveryAddress: addr,
+        PickupTime:      new Date(time).toISOString(),
+        Note:            note,
+        Items: cart.map(i => ({
+            MenuItemId: i.id,
+            Quantity:   i.qty,
+            UnitPrice:  i.price,
+            Note:       i.note || null
+        }))
+    };
+
+    const btn = event?.target;
+    if (btn) { btn.disabled = true; btn.textContent = 'Đang gửi...'; }
+
+    try {
+        const res = await postJson('/Home/CreateOrder', dto);
+        if (res.success) {
+            cart = [];
+            updateCartBadge();
+            closeModal();
+            showToast(`✅ Đặt món thành công! Mã: ${res.orderCode}`);
+            setTimeout(() => alert(
+                `🎉 ĐẶT MÓN THÀNH CÔNG!\n\nMã đơn hàng: ${res.orderCode}\n` +
+                `Người nhận: ${name}\nGiao đến: ${addr}\n\n` +
+                `⚡ Chúng tôi sẽ xác nhận và chuẩn bị ngay!`
+            ), 300);
+        } else {
+            showToast(res.message || 'Đặt món thất bại!', true);
+        }
+    } catch(e) {
+        showToast('Lỗi kết nối, vui lòng thử lại!', true);
+    } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> GỬI ĐƠN HÀNG'; }
+    }
+}
+
+// ════════════════════════════════════════════
+// FORM: TRA CỨU
+// ════════════════════════════════════════════
+function buildSearchForm() {
+    return `
+    <div>
+        <p style="font-size:14px;color:#666;margin-bottom:14px;">
+            Nhập số điện thoại bạn đã dùng khi đặt bàn hoặc đặt món.
+        </p>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <input type="tel" id="searchPhone" placeholder="Nhập số điện thoại..."
+                style="flex:1;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;outline:none"
+                onkeydown="if(event.key==='Enter') findOrder()"
+                onfocus="this.style.borderColor='#e44d26'" onblur="this.style.borderColor='#ddd'">
+            <button onclick="findOrder()"
+                style="padding:11px 22px;background:#e44d26;color:white;border:none;
+                       border-radius:8px;cursor:pointer;font-weight:700;font-size:14px;">
+                <i class="fas fa-search"></i> Tìm
+            </button>
+        </div>
+        <div id="searchResult" style="min-height:60px;">
+            <p style="text-align:center;color:#ccc;font-style:italic;padding:20px 0;">
+                Nhập SĐT và nhấn Tìm để tra cứu
+            </p>
+        </div>
+    </div>`;
+}
+
+async function findOrder() {
+    const phone = document.getElementById('searchPhone')?.value?.trim();
+    if (!phone) { showToast('Vui lòng nhập số điện thoại!', true); return; }
+
+    const container = document.getElementById('searchResult');
+    container.innerHTML = '<p style="text-align:center;padding:20px;color:#aaa"><i class="fas fa-spinner fa-spin"></i> Đang tìm kiếm...</p>';
+
+    try {
+        const res = await fetch(`/Home/Search?phone=${encodeURIComponent(phone)}`).then(r => r.json());
+
+        if (!res.success || (res.orders.length === 0 && res.bookings.length === 0)) {
+            container.innerHTML = `<div style="text-align:center;padding:20px;color:#dc3545;">
+                <i class="fas fa-search" style="font-size:28px;opacity:0.4;display:block;margin-bottom:8px"></i>
+                Không tìm thấy thông tin cho SĐT <strong>${phone}</strong>
+            </div>`;
+            return;
+        }
+
+        let html = `<p style="font-weight:700;margin-bottom:10px;font-size:13px;">
+            Kết quả cho SĐT: <span style="color:#e44d26">${phone}</span></p>`;
+
+        const statusColor = { pending:'#ff9800', confirmed:'#1976d2', cooking:'#2e7d32',
+                              cooked:'#0288d1', shipping:'#7b1fa2', done:'#388e3c', cancelled:'#d32f2f' };
+
+        res.orders.forEach(o => {
+            const color = statusColor[o.status] || '#666';
+            html += `<div style="background:#f0f7ff;padding:12px;border-radius:8px;margin-bottom:8px;border-left:4px solid #1976d2;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                    <strong style="color:#1976d2"><i class="fas fa-utensils"></i> Đơn hàng #${o.orderCode}</strong>
+                    <span style="background:${color};color:white;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700">${o.statusText}</span>
+                </div>
+                <p style="font-size:13px;margin-top:6px;color:#555">
+                    ${o.items.map(i => `${i.menuItemName} ×${i.quantity}`).join(', ')}
+                </p>
+                <p style="font-size:12px;color:#888;margin-top:3px">
+                    Tổng: <strong>${o.totalPrice.toLocaleString('vi')}đ</strong> |
+                    Nhận: ${new Date(o.pickupTime).toLocaleString('vi')}
+                </p>
+            </div>`;
+        });
+
+        res.bookings.forEach(b => {
+            const color = statusColor[b.status] || '#666';
+            html += `<div style="background:#f0fff4;padding:12px;border-radius:8px;margin-bottom:8px;border-left:4px solid #388e3c;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                    <strong style="color:#388e3c"><i class="fas fa-chair"></i> Đặt bàn #${b.bookingCode}</strong>
+                    <span style="background:${color};color:white;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700">${b.statusText}</span>
+                </div>
+                <p style="font-size:13px;margin-top:6px;color:#555">
+                    ${b.bookingDate} | ${b.timeSlotName} | ${b.guestCount} người
+                </p>
+                ${b.note ? `<p style="font-size:12px;color:#888;margin-top:3px">Ghi chú: ${b.note}</p>` : ''}
+            </div>`;
+        });
+
+        container.innerHTML = html;
+    } catch(e) {
+        container.innerHTML = '<p style="color:red;text-align:center">Lỗi kết nối, vui lòng thử lại!</p>';
+    }
+}
+
+// ════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════
+async function postJson(url, data) {
+    const r = await fetch(url, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json();
+}
+
+function showToast(msg, isError = false) {
+    const t = document.createElement('div');
+    t.className = `toast${isError ? ' error' : ''}`;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity='0'; t.style.transition='0.4s'; setTimeout(()=>t.remove(), 400); }, 3000);
+}
+
+        function doSearch() {
+            const q = document.getElementById('searchInput').value.trim();
+            window.location.href = `/?search=${encodeURIComponent(q)}`;
+        }
+
+        // function searchFood() {
+        //     const q = document.getElementById('searchInput').value.toLowerCase().trim();
+        //     let found = false;
+
+        //     document.querySelectorAll('.food-card').forEach(card => {
+        //         const match = card.dataset.name?.toLowerCase().includes(q);
+        //         card.style.display = match ? '' : 'none';
+        //         if (match) found = true;
+        //     });
+
+        //  //   Hiển thị / ẩn thông báo
+        //     document.getElementById('noResult').style.display = found ? 'none' : 'block';
+        // }
+        // <p id="noResult" style="display:none; color:red;">
+        //     Không tìm thấy món ăn nào
+        // </p>
+</script>
+</body>
+</html>

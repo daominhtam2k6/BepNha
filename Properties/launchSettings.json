@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BepNha.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:55820;http://localhost:55821"
+    }
+  }
+}

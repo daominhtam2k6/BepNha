@@ -1,0 +1,994 @@
+@{
+    ViewData["Title"] = "Màn hình Bếp & Giao hàng - Bếp Nhà";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e44d26;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI',sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .header-bar {
+            background: #fff;
+            padding: 0 30px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+
+            .header-bar h1 {
+                font-size: 19px;
+                color: var(--primary);
+                font-weight: 700;
+            }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .btn-refresh {
+            padding: 7px 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+            .btn-refresh:hover {
+                background: #c93d1d;
+            }
+
+        /* ── TABS ── */
+        .tab-bar {
+            background: #fff;
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #eee;
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .tab-btn {
+            padding: 14px 28px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .tab-btn.active {
+                color: var(--primary);
+                border-bottom-color: var(--primary);
+            }
+
+            .tab-btn:hover:not(.active) {
+                color: #555;
+                background: #f9f9f9;
+            }
+
+        .tab-count {
+            background: #eee;
+            color: #666;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            min-width: 22px;
+            text-align: center;
+        }
+
+            .tab-count.has-items {
+                background: var(--primary);
+                color: #fff;
+            }
+
+        /* ── CONTENT ── */
+        .tab-content {
+            display: none;
+            padding: 24px 30px;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        /* ── ORDER CARD ── */
+        .order-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid #eee;
+            transition: 0.3s;
+        }
+
+            .order-card.status-confirmed {
+                border-left-color: #6c757d;
+            }
+
+            .order-card.status-cooking {
+                border-left-color: var(--warning);
+            }
+
+            .order-card.status-cooked {
+                border-left-color: var(--success);
+            }
+
+            .order-card.status-shipping {
+                border-left-color: var(--info);
+            }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .order-code {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .order-time {
+            font-size: 12px;
+            color: #aaa;
+            margin-left: 8px;
+        }
+
+        .order-meta {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+            .order-meta i {
+                width: 16px;
+                color: #aaa;
+            }
+
+            .order-meta strong {
+                color: #333;
+            }
+
+        .status-pill {
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .pill-confirmed {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .pill-cooking {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+
+        .pill-cooked {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .pill-shipping {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .pill-done {
+            background: #f5f5f5;
+            color: #999;
+        }
+
+        /* ── ITEMS TABLE ── */
+        .items-section {
+            margin: 14px 0;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .items-header {
+            background: #f8f9fa;
+            padding: 8px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 10px;
+        }
+
+        .item-row {
+            padding: 10px 14px;
+            border-top: 1px solid #f5f5f5;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .item-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .item-note {
+            font-size: 12px;
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .item-qty {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .item-toggle {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+
+            .item-toggle.pending {
+                background: #fff4e5;
+                color: #e65100;
+            }
+
+            .item-toggle.cooking {
+                background: #e8f5e9;
+                color: #1b5e20;
+            }
+
+            .item-toggle.done {
+                background: #f5f5f5;
+                color: #bbb;
+                text-decoration: line-through;
+            }
+
+        /* ── ACTION BUTTONS ── */
+        .order-actions {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 9px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-start {
+            background: var(--warning);
+            color: #333;
+        }
+
+            .btn-start:hover {
+                background: #e0a800;
+            }
+
+        .btn-cooked {
+            background: var(--success);
+            color: #fff;
+        }
+
+            .btn-cooked:hover {
+                background: #218838;
+            }
+
+        .btn-handover {
+            background: var(--info);
+            color: #fff;
+        }
+
+            .btn-handover:hover {
+                background: #138496;
+            }
+
+        .btn-done {
+            background: var(--success);
+            color: #fff;
+        }
+
+            .btn-done:hover {
+                background: #218838;
+            }
+
+        /* ── SHIPPER INFO (trong tab đang giao) ── */
+        /* [YÊU CẦU 3] Cải tiến hiển thị thông tin shipper */
+        .shipper-info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #1565c0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--info);
+        }
+
+            .shipper-info i {
+                font-size: 20px;
+                flex-shrink: 0;
+            }
+
+            .shipper-info .shipper-details {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .shipper-info .shipper-name {
+                font-weight: 700;
+                font-size: 14px;
+            }
+
+            .shipper-info .shipper-phone {
+                font-size: 13px;
+            }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #ccc;
+        }
+
+            .empty-state i {
+                font-size: 56px;
+                margin-bottom: 16px;
+                display: block;
+            }
+
+            .empty-state p {
+                font-size: 16px;
+                color: #aaa;
+            }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-chip {
+            background: #fff;
+            border-radius: 10px;
+            padding: 12px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+            .stat-chip .num {
+                font-size: 22px;
+                font-weight: 800;
+            }
+
+            .stat-chip.orange .num {
+                color: var(--warning);
+            }
+
+            .stat-chip.green .num {
+                color: var(--success);
+            }
+
+            .stat-chip.blue .num {
+                color: var(--info);
+            }
+
+        /* ── PULSE ANIMATION ── */
+        .pulse {
+            animation: staff-pulse 2s infinite;
+        }
+
+        @@keyframes staff-pulse {
+            0%, 100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        /* ── TIMER BADGE ── */
+        .timer-badge {
+            font-size: 12px;
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 6px;
+            padding: 2px 8px;
+            margin-left: 8px;
+        }
+
+        .timer-late {
+            background: #f8d7da;
+            color: #842029;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <div class="header-bar">
+        <h1>🍳 Bếp Nhà – Quản lý Bếp & Giao hàng</h1>
+        <div class="header-actions">
+            <span style="color:#aaa;font-size:12px;">
+                <i class="fas fa-sync pulse" style="color:var(--primary)"></i>
+                Tự động cập nhật mỗi 30s
+            </span>
+            <span style="font-size:13px;color:#555;">
+                <i class="fas fa-user-circle" style="color:var(--primary)"></i>
+                @User.Identity?.Name
+            </span>
+            <button class="btn-refresh" onclick="refreshAll()">
+                <i class="fas fa-sync"></i> Làm mới
+            </button>
+            <a href="/Account/Logout"
+               style="padding:7px 14px;border:1px solid #eee;border-radius:8px;color:#666;font-size:13px;text-decoration:none;">
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══════════════ TAB BAR ═══════════════ -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('kitchen')" id="tab-btn-kitchen">
+            <i class="fas fa-fire" style="color:var(--warning)"></i>
+            Đang chế biến
+            <span class="tab-count" id="count-kitchen">0</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('handover')" id="tab-btn-handover">
+            <i class="fas fa-box" style="color:var(--success)"></i>
+            Chờ bàn giao
+            <span class="tab-count" id="count-handover">0</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('shipping')" id="tab-btn-shipping">
+            <i class="fas fa-motorcycle" style="color:var(--info)"></i>
+            Đang giao
+            <span class="tab-count" id="count-shipping">0</span>
+        </button>
+    </div>
+
+    <!-- ═══════════════ TAB: ĐANG CHẾ BIẾN ═══════════════ -->
+    <div class="tab-content active" id="tab-kitchen">
+        <div class="stats-bar" id="stats-kitchen"></div>
+        <div id="list-kitchen">
+            <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Đang tải...</p></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ TAB: CHỜ BÀN GIAO ═══════════════ -->
+    <div class="tab-content" id="tab-handover">
+        <div style="background:#e8f5e9;border-radius:10px;padding:12px 18px;margin-bottom:18px;font-size:13px;color:#2e7d32;">
+            <i class="fas fa-info-circle"></i>
+            <strong>Hướng dẫn:</strong> Các đơn bên dưới đã được bếp nấu xong.
+            Nhập tên và SĐT của shipper rồi nhấn <strong>"Bàn giao"</strong> để chuyển đơn cho shipper.
+        </div>
+        <div id="list-handover">
+            <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Đang tải...</p></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ TAB: ĐANG GIAO ═══════════════ -->
+    <div class="tab-content" id="tab-shipping">
+        <div style="background:#e3f2fd;border-radius:10px;padding:12px 18px;margin-bottom:18px;font-size:13px;color:#1565c0;">
+            <i class="fas fa-info-circle"></i>
+            <strong>Theo dõi:</strong> Các đơn đã được bàn giao cho shipper.
+            Nhấn <strong>"Xác nhận hoàn tất"</strong> khi shipper báo đã giao thành công.
+        </div>
+        <div id="list-shipping">
+            <div class="empty-state"><i class="fas fa-spinner fa-spin"></i><p>Đang tải...</p></div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ MODAL BÀN GIAO ═══════════════ -->
+    <div id="handoverModal"
+         style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;
+            align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;padding:30px;width:90%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+            <h3 style="color:var(--dark);margin-bottom:6px;">
+                <i class="fas fa-motorcycle" style="color:var(--info)"></i> Bàn giao cho Shipper
+            </h3>
+            <p style="font-size:13px;color:#888;margin-bottom:20px;">
+                Nhập thông tin shipper nhận đơn <strong id="modal-order-code"></strong>
+            </p>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                    <label style="font-size:13px;font-weight:600;color:#444;display:block;margin-bottom:6px;">
+                        <i class="fas fa-user"></i> Tên shipper *
+                    </label>
+                    <input type="text" id="shipper-name" placeholder="Nhập tên shipper..."
+                           style="width:100%;padding:11px 14px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.2s;"
+                           onfocus="this.style.borderColor='var(--info)'"
+                           onblur="this.style.borderColor='#eee'">
+                </div>
+                <div>
+                    <label style="font-size:13px;font-weight:600;color:#444;display:block;margin-bottom:6px;">
+                        <i class="fas fa-phone"></i> Số điện thoại shipper *
+                    </label>
+                    <input type="tel" id="shipper-phone" placeholder="0912xxxxxx"
+                           style="width:100%;padding:11px 14px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.2s;"
+                           onfocus="this.style.borderColor='var(--info)'"
+                           onblur="this.style.borderColor='#eee'">
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:22px;justify-content:flex-end;">
+                <button onclick="closeHandoverModal()"
+                        style="padding:10px 22px;background:#f5f5f5;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:#666;">
+                    Hủy
+                </button>
+                <button onclick="confirmHandover()"
+                        style="padding:10px 22px;background:var(--info);color:#fff;border:none;border-radius:8px;
+                       cursor:pointer;font-size:14px;font-weight:700;">
+                    <i class="fas fa-check"></i> Xác nhận bàn giao
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── STATE ──
+        let currentHandoverId  = null;
+        let autoRefreshTimer   = null;
+
+        // ── TAB SWITCHING ──
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab-btn-' + tab).classList.add('active');
+            document.getElementById('tab-'     + tab).classList.add('active');
+        }
+
+        // ── API HELPERS ──
+        async function get(url) {
+            const r = await fetch(url);
+            return r.json();
+        }
+        async function postForm(url, params) {
+            const r = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(params).toString()
+            });
+            return r.json();
+        }
+
+        // ── TIME HELPERS ──
+        function timeAgo(dateStr) {
+            const diff = Math.floor((new Date() - new Date(dateStr)) / 60000);
+            if (diff < 1)  return 'vừa xong';
+            if (diff < 60) return `${diff} phút trước`;
+            return `${Math.floor(diff/60)}h ${diff%60}p trước`;
+        }
+
+        function pickupCountdown(pickupStr) {
+            const diff = Math.floor((new Date(pickupStr) - new Date()) / 60000);
+            if (diff < 0)   return `<span class="timer-badge timer-late"><i class="fas fa-exclamation"></i> Trễ ${Math.abs(diff)} phút</span>`;
+            if (diff < 15)  return `<span class="timer-badge timer-late"><i class="fas fa-clock"></i> ${diff} phút nữa</span>`;
+            return `<span class="timer-badge"><i class="fas fa-clock"></i> ${diff} phút nữa</span>`;
+        }
+
+        // ════════════════════════════════════════
+        // TAB 1: ĐANG CHẾ BIẾN
+        // ════════════════════════════════════════
+        async function loadKitchen() {
+            const data  = await get('/Staff/GetKitchenOrders');
+            const cnt   = document.getElementById('count-kitchen');
+            cnt.textContent = data.length;
+            cnt.className   = 'tab-count' + (data.length > 0 ? ' has-items' : '');
+
+            const confirmed = data.filter(o => o.status === 'confirmed').length;
+            const cooking   = data.filter(o => o.status === 'cooking').length;
+            document.getElementById('stats-kitchen').innerHTML = `
+                <div class="stat-chip orange">
+                    <i class="fas fa-hourglass-start" style="color:var(--warning);font-size:20px"></i>
+                    <div><div class="num">${confirmed}</div><div style="font-size:11px;color:#888">Chờ bắt đầu</div></div>
+                </div>
+                <div class="stat-chip orange">
+                    <i class="fas fa-fire" style="color:var(--warning);font-size:20px"></i>
+                    <div><div class="num">${cooking}</div><div style="font-size:11px;color:#888">Đang nấu</div></div>
+                </div>`;
+
+            const container = document.getElementById('list-kitchen');
+            if (!data.length) {
+                container.innerHTML = `<div class="empty-state">
+                    <i class="fas fa-check-circle" style="color:var(--success)"></i>
+                    <p><strong>Tất cả món đã nấu xong!</strong></p>
+                    <p style="margin-top:6px;font-size:13px">Kiểm tra tab <strong>Chờ bàn giao</strong></p>
+                </div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(o => `
+                <div class="order-card status-${o.status}" id="kitchen-card-${o.id}">
+                    <div class="order-header">
+                        <div>
+                            <span class="order-code">#${o.orderCode}</span>
+                            <span class="order-time">${timeAgo(o.createdAt)}</span>
+                            ${pickupCountdown(o.pickupTime)}
+                        </div>
+                        <span class="status-pill pill-${o.status}">${o.statusText}</span>
+                    </div>
+                    <div class="order-meta" style="margin-top:10px">
+                        <div><i class="fas fa-user"></i> <strong>${o.customerName}</strong> – ${o.customerPhone}</div>
+                        ${o.deliveryAddress ? `<div><i class="fas fa-map-marker-alt"></i> ${o.deliveryAddress}</div>` : ''}
+                        <div><i class="fas fa-clock"></i> Nhận lúc: <strong>${new Date(o.pickupTime).toLocaleString('vi-VN')}</strong></div>
+                        ${o.note ? `<div><i class="fas fa-sticky-note" style="color:var(--primary)"></i> <em>${o.note}</em></div>` : ''}
+                    </div>
+                    <div class="items-section" style="margin-top:14px">
+                        <div class="items-header">
+                            <span>Tên món</span><span>SL</span><span>Trạng thái</span>
+                        </div>
+                        ${o.items.map(i => `
+                            <div class="item-row">
+                                <div>
+                                    <div class="item-name">${i.menuItemName}</div>
+                                    ${i.note ? `<div class="item-note">📝 ${i.note}</div>` : ''}
+                                </div>
+                                <div class="item-qty">×${i.quantity}</div>
+                                <button class="item-toggle ${i.status}" onclick="toggleItem(${i.id},'${i.status}',${o.id})">
+                                    ${i.status === 'pending' ? '⏳ Chờ nấu' : i.status === 'cooking' ? '🔥 Đang nấu' : '✅ Xong'}
+                                </button>
+                            </div>`).join('')}
+                    </div>
+                    <div class="order-actions">
+                        ${o.status === 'confirmed' ? `
+                            <button class="btn-action btn-start" onclick="updateKitchen(${o.id},'cooking')">
+                                <i class="fas fa-fire"></i> Bắt đầu nấu
+                            </button>` : ''}
+                        ${o.status === 'cooking' ? `
+                            <button class="btn-action btn-cooked" onclick="updateKitchen(${o.id},'cooked')">
+                                <i class="fas fa-check-double"></i> Nấu xong – Chuyển bàn giao
+                            </button>` : ''}
+                    </div>
+                </div>`).join('');
+        }
+
+        async function toggleItem(itemId, currentStatus, orderId) {
+            const next = { pending:'cooking', cooking:'done', done:'pending' }[currentStatus] || 'pending';
+            await postForm('/Staff/UpdateItemStatus', { itemId, status: next });
+            loadKitchen();
+        }
+
+                async function updateKitchen(id, action) {
+
+            // Xác nhận trước khi thao tác
+            if (action === 'cooking') {
+                const ok = confirm('Bắt đầu chế biến đơn này?');
+                if (!ok) return;
+            }
+
+            if (action === 'cooked') {
+                const ok = confirm('Xác nhận đã nấu xong toàn bộ món?\n\nĐơn sẽ được chuyển sang chờ bàn giao.');
+                if (!ok) return;
+            }
+
+            const res = await postForm('/Staff/UpdateOrderStatus', { id, action });
+
+            if (res.success) {
+                if (action === 'cooked') {
+                    const card = document.getElementById(`kitchen-card-${id}`);
+                    if (card) {
+                        card.style.transition = '0.4s';
+                        card.style.opacity    = '0';
+                        card.style.transform  = 'translateX(30px)';
+                        setTimeout(() => { loadKitchen(); loadHandover(); }, 400);
+                    }
+                } else {
+                    loadKitchen();
+                }
+            } else {
+                alert('❌ ' + res.message);
+            }
+        }
+
+        // ════════════════════════════════════════
+        // TAB 2: CHỜ BÀN GIAO SHIPPER
+        // ════════════════════════════════════════
+        async function loadHandover() {
+            const data      = await get('/Staff/GetCookedOrders');
+            const cnt       = document.getElementById('count-handover');
+            cnt.textContent = data.length;
+            cnt.className   = 'tab-count' + (data.length > 0 ? ' has-items' : '');
+
+            const container = document.getElementById('list-handover');
+            if (!data.length) {
+                container.innerHTML = `<div class="empty-state">
+                    <i class="fas fa-box-open" style="color:var(--success)"></i>
+                    <p><strong>Không có đơn nào chờ bàn giao</strong></p>
+                </div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(o => `
+                <div class="order-card status-cooked" id="handover-card-${o.id}">
+                    <div class="order-header">
+                        <div>
+                            <span class="order-code">#${o.orderCode}</span>
+                            <span class="order-time">${timeAgo(o.createdAt)}</span>
+                            ${pickupCountdown(o.pickupTime)}
+                        </div>
+                        <span class="status-pill pill-cooked">✅ Nấu xong</span>
+                    </div>
+                    <div class="order-meta" style="margin-top:10px">
+                        <div><i class="fas fa-user"></i> <strong>${o.customerName}</strong> – ${o.customerPhone}</div>
+                        ${o.deliveryAddress ? `<div><i class="fas fa-map-marker-alt"></i> ${o.deliveryAddress}</div>` : ''}
+                        <div><i class="fas fa-clock"></i> Nhận lúc: <strong>${new Date(o.pickupTime).toLocaleString('vi-VN')}</strong></div>
+                        ${o.note ? `<div><i class="fas fa-sticky-note" style="color:var(--primary)"></i> <em>${o.note}</em></div>` : ''}
+                    </div>
+                    <div class="items-section" style="margin-top:14px">
+                        <div class="items-header"><span>Món</span><span>SL</span><span>Ghi chú</span></div>
+                        ${o.items.map(i => `
+                            <div class="item-row">
+                                <div class="item-name">${i.menuItemName}</div>
+                                <div class="item-qty">×${i.quantity}</div>
+                                <div class="item-note">${i.note || ''}</div>
+                            </div>`).join('')}
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn-action btn-handover" onclick="openHandoverModal(${o.id},'${o.orderCode}')">
+                            <i class="fas fa-motorcycle"></i> Bàn giao cho Shipper
+                        </button>
+                    </div>
+                </div>`).join('');
+        }
+
+        // ── MODAL BÀN GIAO ──
+        function openHandoverModal(orderId, orderCode) {
+            currentHandoverId = orderId;
+            document.getElementById('modal-order-code').textContent = '#' + orderCode;
+            document.getElementById('shipper-name').value  = '';
+            document.getElementById('shipper-phone').value = '';
+            document.getElementById('handoverModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('shipper-name').focus(), 100);
+        }
+
+        function closeHandoverModal() {
+            document.getElementById('handoverModal').style.display = 'none';
+            currentHandoverId = null;
+        }
+
+                async function confirmHandover() {
+            const name  = document.getElementById('shipper-name').value.trim();
+            const phone = document.getElementById('shipper-phone').value.trim();
+
+            if (!name)  { alert('Vui lòng nhập tên shipper!'); return; }
+            if (!phone) { alert('Vui lòng nhập SĐT shipper!'); return; }
+
+            // ✅ Thêm confirm
+            const ok = confirm(`Xác nhận bàn giao đơn cho shipper?\n\n👤 ${name}\n📞 ${phone}`);
+            if (!ok) return;
+
+            const btn = document.querySelector('#handoverModal button:last-child');
+            btn.disabled = true;
+            btn.textContent = 'Đang xử lý...';
+
+            const res = await postForm('/Staff/HandoverToShipper', {
+                id: currentHandoverId,
+                shipperName:  name,
+                shipperPhone: phone
+            });
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check"></i> Xác nhận bàn giao';
+
+            if (res.success) {
+                closeHandoverModal();
+                const card = document.getElementById(`handover-card-${currentHandoverId}`);
+                if (card) {
+                    card.style.transition = '0.4s';
+                    card.style.opacity    = '0';
+                    card.style.transform  = 'translateX(30px)';
+                    setTimeout(() => { loadHandover(); loadShipping(); }, 400);
+                } else {
+                    loadHandover();
+                    loadShipping();
+                }
+                showToast(`✅ Đã bàn giao cho ${name} – ${phone}`);
+            } else {
+                alert('❌ ' + res.message);
+            }
+        }
+
+        // ════════════════════════════════════════
+        // [YÊU CẦU 3] TAB 3: ĐANG GIAO
+        // ════════════════════════════════════════
+        async function loadShipping() {
+            const data      = await get('/Staff/GetShippingOrders');
+            const cnt       = document.getElementById('count-shipping');
+            cnt.textContent = data.length;
+            cnt.className   = 'tab-count' + (data.length > 0 ? ' has-items' : '');
+
+            const container = document.getElementById('list-shipping');
+            if (!data.length) {
+                container.innerHTML = `<div class="empty-state">
+                    <i class="fas fa-motorcycle" style="color:var(--info)"></i>
+                    <p><strong>Không có đơn nào đang giao</strong></p>
+                </div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(o => {
+                // [YÊU CẦU 3] Lấy thông tin shipper từ field shipperName / shipperPhone
+                // được backend trả về thay vì parse từ note
+                const shipperName  = o.shipperName  || '';
+                const shipperPhone = o.shipperPhone || '';
+
+                return `
+                <div class="order-card status-shipping" id="shipping-card-${o.id}">
+                    <div class="order-header">
+                        <div>
+                            <span class="order-code">#${o.orderCode}</span>
+                            <span class="order-time">${timeAgo(o.createdAt)}</span>
+                            ${pickupCountdown(o.pickupTime)}
+                        </div>
+                        <span class="status-pill pill-shipping">🛵 Đang giao</span>
+                    </div>
+                    <div class="order-meta" style="margin-top:10px">
+                        <div><i class="fas fa-user"></i> <strong>${o.customerName}</strong> – ${o.customerPhone}</div>
+                        ${o.deliveryAddress ? `<div><i class="fas fa-map-marker-alt"></i> ${o.deliveryAddress}</div>` : ''}
+                        <div><i class="fas fa-clock"></i> Nhận lúc: <strong>${new Date(o.pickupTime).toLocaleString('vi-VN')}</strong></div>
+                        ${o.note ? `<div><i class="fas fa-sticky-note" style="color:var(--primary)"></i> <em>${o.note}</em></div>` : ''}
+                    </div>
+
+                    <!-- [YÊU CẦU 3] Hiển thị thông tin shipper đúng từ dữ liệu server -->
+                    <div class="shipper-info">
+                        <i class="fas fa-motorcycle"></i>
+                        <div class="shipper-details">
+                            <div class="shipper-name">
+                                <strong>Shipper:</strong> ${shipperName || '<span style="color:#aaa;font-style:italic;">Chưa có thông tin</span>'}
+                            </div>
+                            ${shipperPhone ? `
+                            <div class="shipper-phone">
+                                <i class="fas fa-phone" style="font-size:11px;margin-right:4px;"></i>
+                                <a href="tel:${shipperPhone}" style="color:var(--info);font-weight:600;">${shipperPhone}</a>
+                            </div>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="items-section" style="margin-top:14px">
+                        <div class="items-header"><span>Món</span><span>SL</span><span>Ghi chú</span></div>
+                        ${o.items.map(i => `
+                            <div class="item-row">
+                                <div class="item-name">${i.menuItemName}</div>
+                                <div class="item-qty">×${i.quantity}</div>
+                                <div class="item-note">${i.note || ''}</div>
+                            </div>`).join('')}
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn-action btn-done" onclick="confirmDelivered(${o.id})">
+                            <i class="fas fa-check-circle"></i> Xác nhận đã giao thành công
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        async function confirmDelivered(id) {
+            if (!confirm('Xác nhận shipper đã giao hàng thành công?')) return;
+            const res = await postForm('/Staff/ConfirmDelivered', { id });
+            if (res.success) {
+                const card = document.getElementById(`shipping-card-${id}`);
+                if (card) {
+                    card.style.transition = '0.4s';
+                    card.style.opacity    = '0';
+                    card.style.transform  = 'translateX(30px)';
+                    setTimeout(() => loadShipping(), 400);
+                }
+                showToast('✅ Đơn hàng đã hoàn tất!');
+            } else {
+                alert('❌ ' + res.message);
+            }
+        }
+
+        // ── TOAST NOTIFICATION ──
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.style.cssText = `position:fixed;bottom:24px;right:24px;background:#28a745;color:#fff;
+                padding:13px 22px;border-radius:10px;z-index:9999;font-size:14px;font-weight:600;
+                box-shadow:0 4px 15px rgba(0,0,0,0.2);max-width:350px;`;
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => { t.style.opacity='0'; t.style.transition='0.4s'; setTimeout(() => t.remove(), 400); }, 3000);
+        }
+
+        // ── REFRESH ALL ──
+        function refreshAll() {
+            loadKitchen();
+            loadHandover();
+            loadShipping();
+        }
+
+        // ── INIT & AUTO REFRESH ──
+        refreshAll();
+        autoRefreshTimer = setInterval(refreshAll, 30000);
+
+        // Close modal khi click ngoài
+        document.getElementById('handoverModal').addEventListener('click', function(e) {
+            if (e.target === this) closeHandoverModal();
+        });
+    </script>
+</body>
+</html>

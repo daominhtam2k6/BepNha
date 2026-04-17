@@ -1,0 +1,521 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\wwwroot\\js\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:wwwroot\\js\\script.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\models\\viewmodels\\bookingvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:models\\viewmodels\\bookingvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\models\\viewmodels\\admindashboardvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:models\\viewmodels\\admindashboardvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:models\\dtos\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\models\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:models\\entities\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:services\\bookingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:repositories\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\wwwroot\\css\\admin-style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:wwwroot\\css\\admin-style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\wwwroot\\js\\admin-logic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:wwwroot\\js\\admin-logic.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\models\\entities\\menuitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:models\\entities\\menuitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\399b73dc-2aae-48a4-a7d7-424ae5d761bb_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\AccountController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\23338685-378d-4573-971b-41e7d0b803b6_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\2f85fb3e-10f9-4cba-ba53-14351dd3ad17_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\0411afd4-c639-479c-899f-9dad99d26ef4_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\571f20ef-0070-413a-b6f8-5312fa27bf86_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\ec276f9e-a2ce-40d7-9c4d-f6989631686f_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\1aec839a-847e-41aa-b796-7c2f7ce768dd_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:services\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\d759ac0e-2b77-40ed-9a97-60c2f520ba48_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\migrations\\20260401054348_lan1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:migrations\\20260401054348_lan1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|c:\\users\\thanh\\downloads\\son\\bepnha.web-20260404t085017z-3-001\\bepnha.web\\migrations\\20260402015233_updatemenuitemimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8BE25059-6C1B-A999-2550-2E9D765DEB42}|BepNha.Web.csproj|solutionrelative:migrations\\20260402015233_updatemenuitemimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\Entities\\User.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\User.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\Entities\\User.cs",
+              "RelativeToolTip": "Models\\Entities\\User.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA1wB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:29:43.344Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RegisterDto.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\DTOs\\RegisterDto.cs",
+              "RelativeDocumentMoniker": "Models\\DTOs\\RegisterDto.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\DTOs\\RegisterDto.cs",
+              "RelativeToolTip": "Models\\DTOs\\RegisterDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:28:46.882Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowEgAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T11:32:01.722Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "script.js",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\wwwroot\\js\\script.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\script.js",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\wwwroot\\js\\script.js",
+              "RelativeToolTip": "wwwroot\\js\\script.js",
+              "ViewState": "AgIAAMUAAAAAAAAAAAAswMUAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-01T09:53:29.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T11:30:54.835Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAswG4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:25:53.312Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Views\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Index.cshtml",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Views\\Admin\\Index.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Index.cshtml",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAEwGIAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-04T02:02:09.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "BookingService.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Services\\BookingService.cs",
+              "RelativeDocumentMoniker": "Services\\BookingService.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Services\\BookingService.cs",
+              "RelativeToolTip": "Services\\BookingService.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAQwGYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T12:34:54.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Controllers\\AccountController.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAowCAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T08:48:02.484Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BookingVm.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\ViewModels\\BookingVm.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\BookingVm.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\ViewModels\\BookingVm.cs",
+              "RelativeToolTip": "Models\\ViewModels\\BookingVm.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAzwBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T12:36:34.765Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AdminDashboardVm.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\ViewModels\\AdminDashboardVm.cs",
+              "RelativeDocumentMoniker": "Models\\ViewModels\\AdminDashboardVm.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\ViewModels\\AdminDashboardVm.cs",
+              "RelativeToolTip": "Models\\ViewModels\\AdminDashboardVm.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAmwCEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T01:40:33.397Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAAAHwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T01:32:22.547Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T09:23:10.3Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "admin-style.css",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\wwwroot\\css\\admin-style.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\admin-style.css",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\wwwroot\\css\\admin-style.css",
+              "RelativeToolTip": "wwwroot\\css\\admin-style.css",
+              "ViewState": "AgIAAL0AAAAAAAAAAAAAANQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-01T10:36:52.534Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Services\\UserService.cs",
+              "RelativeToolTip": "Services\\UserService.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAgwC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:27:20.922Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "admin-logic.js",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\wwwroot\\js\\admin-logic.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\admin-logic.js",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\wwwroot\\js\\admin-logic.js",
+              "RelativeToolTip": "wwwroot\\js\\admin-logic.js",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAuwJUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-04T09:23:36.406Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "OrderRepository.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Repositories\\OrderRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\OrderRepository.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Repositories\\OrderRepository.cs",
+              "RelativeToolTip": "Repositories\\OrderRepository.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAAAGoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T02:05:22.579Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MenuItem.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\Entities\\MenuItem.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\MenuItem.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Models\\Entities\\MenuItem.cs",
+              "RelativeToolTip": "Models\\Entities\\MenuItem.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T01:41:35.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "20260402015233_UpdateMenuItemImages.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Migrations\\20260402015233_UpdateMenuItemImages.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260402015233_UpdateMenuItemImages.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Migrations\\20260402015233_UpdateMenuItemImages.cs",
+              "RelativeToolTip": "Migrations\\20260402015233_UpdateMenuItemImages.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-02T01:52:33.693Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:29:55.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-01T08:48:02.476Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\23338685-378d-4573-971b-41e7d0b803b6_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\HomeController.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\23338685-378d-4573-971b-41e7d0b803b6_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\HomeController.cs",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\23338685-378d-4573-971b-41e7d0b803b6_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\HomeController.cs [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\23338685-378d-4573-971b-41e7d0b803b6_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\HomeController.cs [Read Only]",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAswHUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:35:19.397Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\399b73dc-2aae-48a4-a7d7-424ae5d761bb_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\AccountController.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\399b73dc-2aae-48a4-a7d7-424ae5d761bb_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\AccountController.cs",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\399b73dc-2aae-48a4-a7d7-424ae5d761bb_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\AccountController.cs [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\399b73dc-2aae-48a4-a7d7-424ae5d761bb_BepNha_Fix_v3.zip.BepNha_Fix_v3.zip\\AccountController.cs [Read Only]",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAswHIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:35:38.392Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\0411afd4-c639-479c-899f-9dad99d26ef4_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Login.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\0411afd4-c639-479c-899f-9dad99d26ef4_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Login.cshtml",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\0411afd4-c639-479c-899f-9dad99d26ef4_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Login.cshtml [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\0411afd4-c639-479c-899f-9dad99d26ef4_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Login.cshtml [Read Only]",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAUwF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T11:31:34.568Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\2f85fb3e-10f9-4cba-ba53-14351dd3ad17_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\2f85fb3e-10f9-4cba-ba53-14351dd3ad17_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\2f85fb3e-10f9-4cba-ba53-14351dd3ad17_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\2f85fb3e-10f9-4cba-ba53-14351dd3ad17_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml [Read Only]",
+              "ViewState": "AgIAAE0CAAAAAAAAAAAUwIUCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T11:31:49.51Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\571f20ef-0070-413a-b6f8-5312fa27bf86_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Register.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\571f20ef-0070-413a-b6f8-5312fa27bf86_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Register.cshtml",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\571f20ef-0070-413a-b6f8-5312fa27bf86_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Register.cshtml [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\571f20ef-0070-413a-b6f8-5312fa27bf86_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Register.cshtml [Read Only]",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAmwP0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T11:30:23.772Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\ec276f9e-a2ce-40d7-9c4d-f6989631686f_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Program.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\ec276f9e-a2ce-40d7-9c4d-f6989631686f_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Program.cs",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\ec276f9e-a2ce-40d7-9c4d-f6989631686f_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Program.cs [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\ec276f9e-a2ce-40d7-9c4d-f6989631686f_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Program.cs [Read Only]",
+              "ViewState": "AgIAADAAAAAAAAAAAAAmwE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:30:00.852Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\1aec839a-847e-41aa-b796-7c2f7ce768dd_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\User.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\1aec839a-847e-41aa-b796-7c2f7ce768dd_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\User.cs",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\1aec839a-847e-41aa-b796-7c2f7ce768dd_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\User.cs [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\1aec839a-847e-41aa-b796-7c2f7ce768dd_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\User.cs [Read Only]",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:29:26.212Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Services\\Interfaces\\IUserService.cs",
+              "RelativeDocumentMoniker": "Services\\Interfaces\\IUserService.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Services\\Interfaces\\IUserService.cs",
+              "RelativeToolTip": "Services\\Interfaces\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T11:27:34.943Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\d759ac0e-2b77-40ed-9a97-60c2f520ba48_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\d759ac0e-2b77-40ed-9a97-60c2f520ba48_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Duy Lap\\AppData\\Local\\Temp\\d759ac0e-2b77-40ed-9a97-60c2f520ba48_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml [Read Only]",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Duy Lap\\AppData\\Local\\Temp\\d759ac0e-2b77-40ed-9a97-60c2f520ba48_BepNha_Fix_v2.zip.BepNha_Fix_v2.zip\\Index.cshtml [Read Only]",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-01T10:30:15.679Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "20260401054348_lan1.cs",
+              "DocumentMoniker": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Migrations\\20260401054348_lan1.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260401054348_lan1.cs",
+              "ToolTip": "C:\\Users\\thanh\\Downloads\\son\\BepNha.Web-20260404T085017Z-3-001\\BepNha.Web\\Migrations\\20260401054348_lan1.cs",
+              "RelativeToolTip": "Migrations\\20260401054348_lan1.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAQwBIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T08:48:02.388Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

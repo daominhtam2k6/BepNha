@@ -1,0 +1,364 @@
+/* --- Reset & Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s;
+}
+
+/* --- 1. SỬA LẠI CSS HEADER --- */
+.main-header {
+    background-color: #ffffff;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo a {
+    font-size: 28px;
+    font-weight: bold;
+    color: #e44d26; /* Màu nhấn */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.search-wrapper {
+    flex: 0 1 400px; /* Độ rộng linh hoạt cho ô search */
+    display: flex;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+}
+
+.search-wrapper:focus-within {
+    border-color: #e44d26;
+}
+
+.search-wrapper input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px 15px;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-wrapper button {
+    background: none;
+    border: none;
+    padding: 0 15px;
+    color: #777;
+    cursor: pointer;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-link {
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link:hover {
+    color: #e44d26;
+}
+
+/* Dropdown trong header */
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropbtn:hover {
+    background-color: #f1f1f1;
+    color: #e44d26;
+    border-color: #e44d26;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 120%;
+    background-color: #ffffff;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8f9fa;
+    color: #e44d26;
+}
+
+.show {
+    display: block;
+    animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 2. CSS BANNER FULL WIDTH --- */
+.banner-section {
+    width: 100%;
+    overflow: hidden;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block; /* Xóa khoảng trống thừa phía dưới ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    max-height: 400px; /* Giới hạn chiều cao để không chiếm quá nhiều màn hình */
+}
+
+/* --- 3. CSS BỐ CỤC NỘI DUNG (70/30) --- */
+.main-content {
+    padding: 40px 0;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 30px; /* Khoảng cách giữa 2 cột */
+}
+
+/* Nửa trái (70%) */
+.food-section {
+    flex: 0 0 70%; /* Cố định 70% width */
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e44d26;
+    display: inline-block;
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* Style thẻ món ăn */
+.food-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.food-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.food-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.food-info {
+    padding: 15px;
+}
+
+.food-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.food-price {
+    color: #e44d26;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* Nửa phải (30%) - BXH */
+.ranking-section {
+    flex: 0 0 calc(30% - 30px); /* 30% width minus gap */
+}
+
+.ranking-sticky {
+    position: sticky;
+    top: 90px; /* Dính khi cuộn, cách header một khoảng */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.ranking-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #e44d26;
+}
+
+.ranking-list {
+    list-style: none;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.ranking-item:last-child {
+    border-bottom: none;
+}
+
+.rank-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #999;
+    width: 25px;
+    text-align: center;
+}
+
+.ranking-item:nth-child(1) .rank-number { color: #ffc107; font-size: 22px; } /* Vàng */
+.ranking-item:nth-child(2) .rank-number { color: #6c757d; } /* Bạc */
+.ranking-item:nth-child(3) .rank-number { color: #8d6e63; } /* Đồng */
+
+.ranking-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.rank-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.rank-name {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.rank-count {
+    font-size: 12px;
+    color: #777;
+}
+
+/* --- 4. CSS PHÂN TRANG --- */
+.pagination {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pg-btn {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.pg-btn:hover:not(.active):not(:disabled) {
+    border-color: #e44d26;
+    color: #e44d26;
+}
+
+.pg-btn.active {
+    background-color: #e44d26;
+    color: #fff;
+    border-color: #e44d26;
+}
+
+.pg-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Style Modal (giữ nguyên, đẹp hơn chút) */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; }
+.modal-content { background: white; margin: 10% auto; padding: 30px; width: 500px; border-radius: 12px; position: relative; animation: zoomIn 0.3s; }
+@keyframes zoomIn { from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);} }
+.close { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #aaa; }
+.close:hover { color: #333; }
+hr { border: 0; border-top: 1px solid #eee; margin: 15px 0 20px 0; }
+/* Tìm và sửa lại class này trong style.css */
+.modal-content {
+    background: white;
+    margin: 5% auto; /* Giảm margin top để đẩy modal lên trên một chút */
+    padding: 30px;
+    width: 90%;      /* Linh hoạt cho mobile */
+    max-width: 500px; /* Giới hạn chiều rộng tối đa */
+    border-radius: 12px;
+    position: relative;
+    animation: zoomIn 0.3s;
+
+    /* THÊM 2 DÒNG DƯỚI ĐÂY */
+    max-height: 85vh;    /* Chiều cao tối đa bằng 85% chiều cao màn hình */
+    overflow-y: auto;    /* Hiện thanh cuộn dọc khi nội dung quá dài */
+}

@@ -1,0 +1,702 @@
+@{
+    ViewData["Title"] = "Admin Dashboard - Bếp Nhà";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/admin-style.css">
+</head>
+<body class="admin-body">
+
+    <!-- ══════════════ MODAL THÊM/SỬA BÀN ══════════════ -->
+    <div id="editTableModal" class="admin-modal">
+        <div class="modal-content">
+            <h3 id="editTableTitle">Thêm bàn mới</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:15px;">
+                <input type="hidden" id="editTableId">
+                <input type="text" id="editTableCode" placeholder="Mã bàn (VD: BAN_07)..." class="admin-input" style="width:100%;box-sizing:border-box;">
+                <input type="number" id="editTableCap" placeholder="Sức chứa..." min="1" class="admin-input" style="width:100%;box-sizing:border-box;">
+                <input type="text" id="editTableNote" placeholder="Ghi chú (nếu có)..." class="admin-input" style="width:100%;box-sizing:border-box;">
+            </div>
+            <div class="modal-btns" style="margin-top:20px;">
+                <button class="btn-action btn-cancel" onclick="closeEditTableModal()">Hủy</button>
+                <button class="btn-action btn-confirm" onclick="saveTable()">Lưu bàn</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════ HEADER ══════════════ -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo"><a href="/Admin">🍜 ADMIN PANEL</a></div>
+            <div class="admin-profile">
+                <span>Chào, @User.Identity?.Name</span>
+                <a href="/Account/Logout" style="margin-left:15px;color:#e44d26;font-size:13px;">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+
+        <!-- ══════════════ SIDEBAR ══════════════ -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-group">
+                <h3>Chức năng chính</h3>
+                <a href="#" class="active" data-tab="tab-so-do-ban">
+                    <i class="fas fa-table"></i> Sơ đồ & Đặt bàn
+                </a>
+                <a href="#" data-tab="tab-don-hang">
+                    <i class="fas fa-clipboard-list"></i> Đơn gọi món
+                </a>
+                <a href="#" data-tab="tab-lich-su">
+                    <i class="fas fa-history"></i> Lịch sử / Báo cáo
+                </a>
+            </div>
+        </aside>
+
+        <!-- ══════════════ MAIN CONTENT ══════════════ -->
+        <main class="admin-main">
+
+            <!-- ════════════════════════════════════════════
+                 [YÊU CẦU 2] TAB GỘP: SƠ ĐỒ BÀN + ĐƠN ĐẶT BÀN
+                 ════════════════════════════════════════════ -->
+            <section id="tab-so-do-ban" class="admin-tab-content active">
+
+                <!-- Header sơ đồ bàn -->
+                <div class="card-header">
+                    <h2><i class="fas fa-table" style="color:var(--primary-color)"></i> Sơ đồ bàn hiện tại</h2>
+                    <button class="btn-action btn-confirm" onclick="openEditTableModal(null)">
+                        <i class="fas fa-plus"></i> Thêm bàn
+                    </button>
+                </div>
+
+                <!-- Chú thích màu trạng thái -->
+                <div style="margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;font-size:13px;">
+                    <span><span style="display:inline-block;width:12px;height:12px;background:#eee;border:2px solid #ccc;border-radius:3px;margin-right:5px;"></span>Trống</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;background:#f0fff4;border:2px solid #28a745;border-radius:3px;margin-right:5px;"></span>Đã đặt trước</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;background:#fff5f2;border:2px solid #e44d26;border-radius:3px;margin-right:5px;"></span>Đang sử dụng</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;background:#e3f2fd;border:2px solid #17a2b8;border-radius:3px;margin-right:5px;"></span>Đang chọn để đặt</span>
+                </div>
+
+                <!-- Lưới sơ đồ bàn -->
+                <div class="table-grid" id="tableGridContainer"></div>
+
+                <!-- ──────────────────────────────────────────────
+                     PANEL FORM ĐẶT BÀN (luôn hiển thị bên dưới)
+                     ────────────────────────────────────────────── -->
+                <div class="section-divider">
+                    <h3><i class="fas fa-edit"></i> Đặt bàn</h3>
+                </div>
+
+                <div class="booking-form-panel"
+                     >
+                    <h4>
+                        <i class="fas fa-chair" style="color:var(--info-color)"></i>
+                        Bàn đang chọn:
+                        <span id="selectedTableBadge" class="selected-table-badge" style="margin-left:4px;">
+                            Chưa chọn bàn
+                        </span>
+                        <span style="font-size:12px;color:#aaa;font-weight:400;margin-left:8px;">
+                            (Click vào bàn trống để chọn)
+                        </span>
+                    </h4>
+
+                    <div class="booking-form-row"
+                         >
+                        <div class="form-group"
+                        style="margin-top: 4px">
+                            <label><i class="fas fa-user"></i> Tên khách hàng *</label>
+                            <input type="text" id="inlineGuestName" placeholder="Nhập tên khách..."
+                                  >
+                        </div>
+                        <div class="form-group"
+                             style="margin-top: 4px">
+                            <label><i class="fas fa-phone"></i> Số điện thoại *</label>
+                            <input type="tel" id="inlineGuestPhone" placeholder="0912xxxxxx"
+                                   >
+                        </div>
+                        <div class="form-group"
+                             style="margin-top: 4px">
+                            <label><i class="fas fa-users"></i> Số lượng khách *</label>
+                            <input type="number" id="inlineGuestCount" min="1" max="6" placeholder="Số người..."
+                                   >
+                        </div>
+                        <div>
+                            <button class="btn-action btn-confirm" onclick="doInlineBooking()" style="padding:9px 18px;white-space:nowrap;">
+                                <i class="fas fa-check"></i> Xác nhận đặt bàn
+                            </button>
+                        </div>
+                    </div>
+                    <div style="margin-top:10px;font-size:12px;color:#888;">
+                        <i class="fas fa-info-circle"></i>
+                        Hoặc click vào một đơn đặt bàn bên dưới để tự động điền thông tin khách.
+                    </div>
+                </div>
+
+                <!-- ──────────────────────────────────────────────
+                     BẢNG ĐƠN ĐẶT BÀN PHÍA DƯỚI
+                     ────────────────────────────────────────────── -->
+                <div class="section-divider">
+                    <h3><i class="fas fa-calendar-alt"></i> Đơn đặt bàn đang chờ</h3>
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;margin-bottom:10px;gap:10px;align-items:center;">
+                    <label style="font-size:13px;color:#666;">Lọc theo ngày:</label>
+                    <input type="date" id="bookingDateFilter" class="admin-input" onchange="loadBookingsByDate(this.value)">
+                </div>
+
+                <div class="admin-card bookings-below-table" style="padding:16px;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Khách hàng</th>
+                                <th>SĐT</th>
+                                <th>Ngày</th>
+                                <th>Khung giờ</th>
+                                <th>Số người</th>
+                                <th>Ghi chú</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBookingBody"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <!-- ══════════════ TAB: ĐƠN GỌI MÓN ══════════════ -->
+            <section id="tab-don-hang" class="admin-tab-content">
+                <div class="card-header"><h2>Quản lý đơn gọi món</h2></div>
+                <div class="admin-card">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Khách hàng</th>
+                                <th>Chi tiết</th>
+                                <th>Giao hàng</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác / Tiến độ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ══════════════ TAB: LỊCH SỬ / BÁO CÁO ══════════════ -->
+            <section id="tab-lich-su" class="admin-tab-content">
+                <div class="card-header">
+                    <h2><i class="fas fa-chart-bar"></i> Lịch sử & Báo cáo</h2>
+                    <input type="date" id="historyDateFilter" class="admin-input">
+                </div>
+                <div id="historyContent" class="admin-card">
+                    <p style="text-align:center;color:#aaa;padding:30px;">Chọn ngày để xem báo cáo</p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- ══════════════ CỘT THỐNG KÊ PHẢI ══════════════ -->
+        <aside class="admin-stats">
+            <div class="stats-card">
+                <h3>Thống kê hôm nay</h3>
+                <div class="stat-item">
+                    <span><span class="dot blue"></span>Mới</span>
+                    <strong id="stat-new">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span><span class="dot green"></span>Hoàn thành</span>
+                    <strong id="stat-done">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span><span class="dot red"></span>Đã hủy</span>
+                    <strong id="stat-cancel">0</strong>
+                </div>
+                <div class="stat-item" style="border-top:1px solid #eee;margin-top:10px;padding-top:10px;">
+                    <span><i class="fas fa-money-bill-wave"></i> Doanh thu:</span>
+                    <strong id="stat-revenue" style="color:var(--primary-color)">0đ</strong>
+                </div>
+                <hr>
+                <div class="table-status">
+                    <p id="tableStatusText">Đang tải...</p>
+                    <progress id="tableProgress" value="0" max="100"></progress>
+                </div>
+                <hr>
+                <button class="btn-action btn-confirm" onclick="refreshAll()" style="width:100%;margin-top:10px;">
+                    <i class="fas fa-sync"></i> Làm mới dữ liệu
+                </button>
+            </div>
+        </aside>
+
+    </div><!-- /admin-container -->
+
+    <script>
+        // ── State ──
+        let allTables   = [];
+        let allBookings = [];   // Cache đơn đặt bàn để auto-fill
+        let selectedTableForBooking = null;  // ID bàn đang chọn để đặt
+        let selectedBookingId = null;
+
+        // ── Tab navigation ──
+        document.querySelectorAll('.sidebar-group a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar-group a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.admin-tab-content').forEach(s => s.classList.remove('active'));
+                document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+
+                const tab = this.getAttribute('data-tab');
+                if (tab === 'tab-so-do-ban') { loadTables(); loadBookings(); }
+                if (tab === 'tab-don-hang')  loadOrders();
+                if (tab === 'tab-lich-su')   initHistory();
+            });
+        });
+
+        // ── FETCH helpers ──
+        async function get(url)  { return fetch(url).then(r => r.json()); }
+        async function post(url, data = {}) {
+            return fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getToken() },
+                body: JSON.stringify(data)
+            }).then(r => r.json());
+        }
+        async function postForm(url, params = {}) {
+            const form = new URLSearchParams(params);
+            return fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': getToken() },
+                body: form.toString()
+            }).then(r => r.json());
+        }
+        function getToken() {
+            return document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+        }
+
+        // ════════════════════════════════════════════════
+        // SƠ ĐỒ BÀN
+        // ════════════════════════════════════════════════
+        async function loadTables() {
+            allTables = await get('/Admin/GetTables');
+            renderTables();
+            updateStats();
+        }
+
+        function renderTables() {
+            const c = document.getElementById('tableGridContainer');
+            c.innerHTML = allTables.map(t => `
+                <div class="table-item ${t.status} ${selectedTableForBooking === t.id ? 'selecting' : ''}"
+                     onclick="handleTableClick(${t.id})">
+                    <i class="fas fa-chair"></i>
+                    <span>${t.tableCode}</span>
+                    <small>${t.note || statusLabel(t.status)}</small>
+                    <div style="margin-top:6px;display:flex;gap:4px;justify-content:center;">
+                        <button onclick="event.stopPropagation();openEditTableModal(${t.id})"
+                            style="font-size:10px;padding:2px 7px;background:#f0f0f0;border:none;border-radius:4px;cursor:pointer;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="event.stopPropagation();deleteTable(${t.id})"
+                            style="font-size:10px;padding:2px 7px;background:#fff0f0;border:none;border-radius:4px;cursor:pointer;color:#dc3545;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function statusLabel(s) {
+            return { available:'Trống', reserved:'Đã đặt trước', occupied:'Đang dùng' }[s] || s;
+        }
+
+        // ════════════════════════════════════════════════
+        // [YÊU CẦU 2] LOGIC CHỌN BÀN & ĐẶT BÀN INLINE
+        // ════════════════════════════════════════════════
+        function handleTableClick(id) {
+            const t = allTables.find(x => x.id === id);
+            if (!t) return;
+
+            if (t.status === 'available') {
+                // Chọn bàn trống để đặt
+                selectedTableForBooking = id;
+                renderTables();
+                // Cập nhật badge hiển thị
+                document.getElementById('selectedTableBadge').innerHTML =
+                    `<i class="fas fa-chair"></i> ${t.tableCode}`;
+                // Cuộn xuống form
+                document.querySelector('.booking-form-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                document.getElementById('inlineGuestName').focus();
+
+            } else if (t.status === 'reserved') {
+                const ok = confirm(`Khách đến nhận bàn ${t.tableCode}?\nOK = Bắt đầu sử dụng | Cancel = Hủy đặt trước`);
+                const newStatus = ok ? 'occupied' : 'available';
+                postForm('/Admin/UpdateTableStatus', { id, status: newStatus, note: '' })
+                    .then(() => loadTables());
+
+            } else if (t.status === 'occupied') {
+                if (confirm(`Bàn ${t.tableCode} đã thanh toán xong?`)) {
+                    postForm('/Admin/UpdateTableStatus', { id, status: 'available', note: '' })
+                        .then(() => loadTables());
+                }
+            }
+        }
+
+        // Auto-fill thông tin từ đơn đặt bàn khi admin click vào row
+        function selectBookingForFill(bookingId) {
+            const bk = allBookings.find(b => b.id === bookingId);
+            if (!bk) return;
+
+            selectedBookingId = bookingId;
+
+            // Highlight row được chọn
+            document.querySelectorAll('#tableBookingBody tr').forEach(r => r.classList.remove('booking-row-selected'));
+            const row = document.getElementById(`bk-row-${bookingId}`);
+            if (row) row.classList.add('booking-row-selected');
+
+            // Điền thông tin vào form
+            document.getElementById('inlineGuestName').value  = bk.customerName  || '';
+            document.getElementById('inlineGuestPhone').value = bk.customerPhone || '';
+            document.getElementById('inlineGuestCount').value = bk.guestCount    || '';
+
+            // Cuộn lên phần form
+            document.querySelector('.booking-form-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        async function doInlineBooking() {
+            if (!selectedTableForBooking) {
+                alert('Vui lòng click vào một bàn trống trong sơ đồ để chọn bàn!');
+                return;
+            }
+            const name  = document.getElementById('inlineGuestName').value.trim();
+            const phone = document.getElementById('inlineGuestPhone').value.trim();
+            const count = document.getElementById('inlineGuestCount').value;
+
+            if (!name || !phone || !count) {
+                alert('Vui lòng nhập đầy đủ thông tin khách hàng!');
+                return;
+            }
+
+            const t = allTables.find(x => x.id === selectedTableForBooking);
+            const note = `${name} (${count} người) - ${phone}`;
+
+            await postForm('/Admin/UpdateTableStatus', {
+                id: selectedTableForBooking,
+                status: 'reserved',
+                note
+            });
+
+            // Nếu booking được chọn → xác nhận luôn trên hệ thống
+            if (selectedBookingId) {
+                await postForm('/Admin/ConfirmBooking', {
+                    id: selectedBookingId,
+                    tableId: selectedTableForBooking
+                });
+            }
+
+            // Thông báo thành công kèm thông tin
+            alert(
+                `✅ Đặt bàn thành công!\n\n` +
+                `🪑 Bàn: ${t ? t.tableCode : selectedTableForBooking}\n` +
+                `👤 Khách: ${name}\n` +
+                `👥 Số người: ${count}\n` +
+                `📞 Số điện thoại: ${phone}\n\n` +
+                `📱 Đã gửi thông tin đặt bàn tới số điện thoại ${phone}`
+            );
+
+            // Reset form & trạng thái chọn bàn
+            selectedTableForBooking = null;
+            document.getElementById('selectedTableBadge').innerHTML = 'Chưa chọn bàn';
+            document.getElementById('inlineGuestName').value  = '';
+            document.getElementById('inlineGuestPhone').value = '';
+            document.getElementById('inlineGuestCount').value = '';
+            document.querySelectorAll('#tableBookingBody tr').forEach(r => r.classList.remove('booking-row-selected'));
+
+            // Xóa đơn đã dùng khỏi danh sách
+            if (selectedBookingId) {
+                allBookings = allBookings.filter(b => b.id !== selectedBookingId);
+                renderBookings(allBookings);
+                selectedBookingId = null;
+            }
+
+            loadTables();
+        }
+
+        // Thêm/sửa bàn
+        function openEditTableModal(id) {
+            document.getElementById('editTableId').value   = id ?? '';
+            document.getElementById('editTableCode').value = '';
+            document.getElementById('editTableCap').value  = '';
+            document.getElementById('editTableNote').value = '';
+            if (id) {
+                const t = allTables.find(x => x.id === id);
+                if (t) {
+                    document.getElementById('editTableTitle').innerText = `Sửa bàn ${t.tableCode}`;
+                    document.getElementById('editTableCode').value = t.tableCode;
+                    document.getElementById('editTableCap').value  = t.capacity;
+                    document.getElementById('editTableNote').value = t.note || '';
+                }
+            } else {
+                document.getElementById('editTableTitle').innerText = 'Thêm bàn mới';
+            }
+            document.getElementById('editTableModal').style.display = 'flex';
+        }
+        function closeEditTableModal() { document.getElementById('editTableModal').style.display = 'none'; }
+
+        async function saveTable() {
+            const id   = document.getElementById('editTableId').value;
+            const code = document.getElementById('editTableCode').value.trim();
+            const cap  = document.getElementById('editTableCap').value;
+            const note = document.getElementById('editTableNote').value.trim();
+            if (!code) { alert('Vui lòng nhập mã bàn!'); return; }
+            if (!cap) { alert('Vui lòng nhập sức chứa!'); return; }
+            const dto = { tableCode: code, capacity: parseInt(cap), note };
+            let res;
+            if (id) res = await post(`/Admin/UpdateTable?id=${id}`, dto);
+            else     res = await post('/Admin/CreateTable', dto);
+            if (res.success) { closeEditTableModal(); loadTables(); }
+            else alert(res.message);
+        }
+
+        async function deleteTable(id) {
+            if (!confirm('Xóa bàn này?')) return;
+            await postForm('/Admin/DeleteTable', { id });
+            loadTables();
+        }
+
+        // ════════════════════════════════════════════════
+        // [YÊU CẦU 2] ĐƠN ĐẶT BÀN - hiển thị bên dưới sơ đồ
+        // ════════════════════════════════════════════════
+        async function loadBookings() {
+            const data = await get('/Admin/GetBookings');
+            allBookings = data;
+            renderBookings(data);
+        }
+
+        async function loadBookingsByDate(date) {
+            const data = await get(`/Admin/GetBookingsByDate?date=${date}`);
+            allBookings = data;
+            renderBookings(data);
+        }
+
+        function renderBookings(list) {
+            const body = document.getElementById('tableBookingBody');
+            if (!list.length) {
+                body.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#aaa;padding:16px;">Không có đơn đặt bàn nào</td></tr>';
+                return;
+            }
+            body.innerHTML = list.map(b => `
+                <tr id="bk-row-${b.id}"
+                    style="cursor:pointer;"
+                    onclick="selectBookingForFill(${b.id})"
+                    title="Click để điền thông tin vào form đặt bàn">
+                    <td><strong>#${b.bookingCode}</strong></td>
+                    <td>${b.customerName}</td>
+                    <td>${b.customerPhone}</td>
+                    <td>${b.bookingDate}</td>
+                    <td>${b.timeSlotName}</td>
+                    <td>${b.guestCount} người</td>
+                    <td>${b.note || '-'}</td>
+                    <td><span class="status-badge status-${b.status}">${b.statusText}</span></td>
+                    <td onclick="event.stopPropagation()">
+                        ${b.status === 'pending' ? `
+                            <button class="btn-action btn-cancel"
+                                onclick="cancelBooking(${b.id})">
+                                <i class="fas fa-times"></i> Từ chối
+                            </button>` : '-'}
+                    </td>
+                </tr>`).join('');
+        }
+
+        // [YÊU CẦU 2] Bỏ nút Xác nhận, chỉ giữ Từ chối
+        async function cancelBooking(id) {
+            if (!confirm('Từ chối đơn đặt bàn này?')) return;
+            const res = await postForm('/Admin/CancelBooking', { id });
+            if (res.success) loadBookings(); else alert(res.message);
+        }
+
+        // ════════════════════════════════════════════════
+        // ĐƠN GỌI MÓN
+        // ════════════════════════════════════════════════
+        async function loadOrders() {
+            const data = await get('/Admin/GetOrders');
+            renderOrders(data);
+        }
+
+        function renderOrders(list) {
+            const body = document.getElementById('orderTableBody');
+            if (!list?.length) {
+                body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px;">Không có đơn hàng</td></tr>';
+                return;
+            }
+            body.innerHTML = list.map(o => `
+                <tr>
+                    <td>
+                        <strong>#${o.orderCode.substring(11, 18)}</strong><br>
+                        <small style="color:#aaa">${new Date(o.createdAt).toLocaleTimeString('vi')}</small>
+                    </td>
+                    <td>${o.customerName}<br><small style="color:#aaa">${o.customerPhone}</small></td>
+                    <td style="text-align:left;vertical-align:top;min-width:180px;padding:10px;">
+                        ${o.items.map(i => `
+                            <div style="margin-bottom:10px;border-left:3px solid #eee;padding-left:8px;">
+                                <div style="font-weight:600;color:#333;font-size:13px;">${i.menuItemName}</div>
+                                <div style="color:#e44d26;font-weight:bold;font-size:12px;">x${i.quantity}</div>
+                                ${i.note ? `<div style="font-size:11px;color:#888;font-style:italic;">Ghi chú: ${i.note}</div>` : ''}
+                            </div>`).join('')}
+                    </td>
+                    <td style="font-size:12px;color:#555;">
+                        ${o.deliveryAddress || 'Tại chỗ'}<br>
+                        ${new Date(o.pickupTime).toLocaleString('vi')}
+                    </td>
+                    <td style="color:#e44d26;font-weight:bold;">${o.totalPrice.toLocaleString('vi')}đ</td>
+                    <td><span class="status-badge status-${o.status}">${o.statusText.toUpperCase()}</span></td>
+                    <td class="action-cell">${renderOrderBtns(o)}</td>
+                </tr>`).join('');
+        }
+
+        function renderOrderBtns(o) {
+            if (o.status === 'pending') return `
+                <button class="btn-action btn-confirm" onclick="updateOrder(${o.id},'confirm')">
+                    <i class="fas fa-check"></i> Xác nhận
+                </button>
+                <button class="btn-action btn-cancel" onclick="updateOrder(${o.id},'cancel')">
+                    <i class="fas fa-times"></i> Hủy
+                </button>`;
+            if (o.status === 'confirmed') return `<span style="font-size:12px;color:#aaa;font-style:italic;"><i class="fas fa-fire" style="color:#ff9800"></i> Chờ bếp bắt đầu</span>`;
+            if (o.status === 'cooking')   return `<span style="font-size:12px;color:#ff9800;font-style:italic;"><i class="fas fa-fire"></i> Bếp đang nấu...</span>`;
+            if (o.status === 'cooked')    return `<span style="font-size:12px;color:#28a745;font-style:italic;"><i class="fas fa-box"></i> Chờ bàn giao shipper</span>`;
+            if (o.status === 'shipping')  return `<span style="font-size:12px;color:#17a2b8;font-style:italic;"><i class="fas fa-motorcycle"></i> Shipper đang giao</span>`;
+            return '';
+        }
+
+        async function updateOrder(id, action) {
+                // Nếu là xác nhận đơn → hỏi trước
+        if (action === 'confirm') {
+            const ok = confirm('Bạn có chắc chắn muốn xác nhận đơn này?\n\nSau khi xác nhận, đơn sẽ được gửi cho bếp.');
+            if (!ok) return; // Hủy thao tác nếu chọn Cancel
+        }
+
+        // Nếu là hủy đơn → cũng nên confirm
+        if (action === 'cancel') {
+            const ok = confirm('Bạn có chắc chắn muốn hủy đơn này?');
+            if (!ok) return;
+        }
+
+        const res = await postForm('/Admin/UpdateOrderStatus', { id, action });
+
+        if (res.success) {
+            if (action === 'confirm') {
+                alert('✅ Đơn đã được xác nhận và gửi xuống bếp!');
+            }
+            if (action === 'cancel') {
+                alert('❌ Đơn đã bị hủy!');
+            }
+
+            loadOrders();
+            updateStats();
+        } else {
+            alert(res.message);
+        }
+        }
+
+        // ════════════════════════════════════════════════
+        // THỐNG KÊ (CỘT PHẢI)
+        // ════════════════════════════════════════════════
+        async function updateStats() {
+            const stats = await get('/Admin/GetTodayStats');
+            document.getElementById('stat-new').innerText     = stats.newOrders    ?? 0;
+            document.getElementById('stat-done').innerText    = stats.doneOrders   ?? 0;
+            document.getElementById('stat-cancel').innerText  = stats.cancelOrders ?? 0;
+            document.getElementById('stat-revenue').innerText = (stats.revenue ?? 0).toLocaleString('vi') + 'đ';
+
+            const tables   = allTables;
+            const occupied = tables.filter(t => t.status !== 'available').length;
+            const percent  = tables.length ? Math.round((occupied / tables.length) * 100) : 0;
+            document.getElementById('tableProgress').value      = percent;
+            document.getElementById('tableStatusText').innerText = `Sử dụng: ${occupied}/${tables.length} bàn (${percent}%)`;
+        }
+
+        // ════════════════════════════════════════════════
+        // LỊCH SỬ / BÁO CÁO
+        // ════════════════════════════════════════════════
+        function initHistory() {
+            const inp   = document.getElementById('historyDateFilter');
+            const today = new Date().toISOString().split('T')[0];
+            inp.value   = today;
+            inp.addEventListener('change', e => loadReport(e.target.value));
+            loadReport(today);
+        }
+
+        async function loadReport(date) {
+            const data = await get(`/Admin/GetReport?date=${date}`);
+            const c    = document.getElementById('historyContent');
+            c.innerHTML = `
+                <div class="history-stats-grid">
+                    <div class="stats-card-mini">Tổng đơn<strong>${data.totalOrders}</strong></div>
+                    <div class="stats-card-mini" style="border-left-color:var(--success-color)">Thành công<strong>${data.doneOrders}</strong></div>
+                    <div class="stats-card-mini" style="border-left-color:var(--warning-color)">Đang xử lý<strong>${data.pendingOrders}</strong></div>
+                    <div class="stats-card-mini" style="border-left-color:var(--danger-color)">Đã hủy<strong>${data.cancelOrders}</strong></div>
+                </div>
+                <div style="font-size:1.2em;margin-bottom:20px;">Doanh thu:
+                    <strong style="color:var(--primary-color)">${(data.revenue ?? 0).toLocaleString('vi')}đ</strong>
+                </div>
+                ${data.topItems?.length ? `
+                <h4 style="margin-bottom:10px;">Top món bán chạy</h4>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+                    ${data.topItems.map((t,i) => `
+                        <div style="background:#f8f9fa;padding:10px 15px;border-radius:8px;font-size:13px;">
+                            <strong>#${i+1} ${t.name}</strong><br>${t.quantity} phần - ${t.revenue.toLocaleString('vi')}đ
+                        </div>`).join('')}
+                </div>` : ''}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Giờ</th><th>Mã đơn</th><th>Khách hàng</th>
+                            <th>Thành tiền</th><th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.orders?.length
+                            ? data.orders.map(o => `
+                                <tr>
+                                    <td>${new Date(o.createdAt).toLocaleTimeString('vi')}</td>
+                                    <td>#${o.orderCode}</td>
+                                    <td>${o.customerName}</td>
+                                    <td>${(o.totalPrice ?? 0).toLocaleString('vi')}đ</td>
+                                    <td><span class="status-badge status-${o.status}">${o.statusText}</span></td>
+                                </tr>`).join('')
+                            : '<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px;">Không có giao dịch nào trong ngày này</td></tr>'}
+                    </tbody>
+                </table>`;
+        }
+
+        // ── Refresh all ──
+        function refreshAll() { 
+            loadTables();
+            loadBookings();
+            loadOrders();
+            updateStats();
+        }
+
+        // ── Init ──
+        window.addEventListener('DOMContentLoaded', () => {
+            loadTables();
+            loadBookings();
+            updateStats();
+
+            // Thiết lập ngày mặc định cho filter
+            document.getElementById('bookingDateFilter').value = new Date().toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>
