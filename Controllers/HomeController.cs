@@ -5,6 +5,7 @@ using BepNha.Web.Services.Interfaces;
 
 namespace BepNha.Web.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IMenuService _menuService;

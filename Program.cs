@@ -6,6 +6,7 @@ using BepNha.Web.Repositories;
 using BepNha.Web.Repositories.Interfaces;
 using BepNha.Web.Services;
 using BepNha.Web.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,12 @@ builder.Logging.AddConsole();
 // ── MVC ──
 builder.Services.AddControllersWithViews();
 
-// ── EF Core + SQLite (Render persistent disk) ──
+// ── EF Core + SQLite (ENV-first) ──
 var sqliteConnStr =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? Environment.GetEnvironmentVariable("CONNECTIONSTRINGS__DEFAULTCONNECTION")
-    ?? $"Data Source={Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "app.db")}";
+    ?? $"Data Source={Environment.GetEnvironmentVariable("SQLITE_FILE") ?? "app.db"}";
 
-// Debug: Log connection string (without passwords)
 Console.WriteLine($"[STARTUP] Using connection string: {sqliteConnStr}");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -39,16 +39,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-// ── Authorization: Allow public access to Home/CreateOrder ──
-builder.Services.AddAuthorization(options =>
-{
-    // Default policy requires auth for [Authorize] attributes
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-});
+// ── Authorization ──
+// Do NOT set a FallbackPolicy that requires authentication globally.
+// By default endpoints are public; use [Authorize] on controllers/actions that require auth.
+builder.Services.AddAuthorization();
 
 // ── Repositories ──
+// Correct mappings: interface -> repository implementation
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
@@ -57,6 +54,7 @@ builder.Services.AddScoped<ITimeSlotRepository, TimeSlotRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // ── Services ──
+// Correct mappings: interface -> service implementation
 builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
